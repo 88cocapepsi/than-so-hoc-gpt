@@ -1,14 +1,13 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
-const STORAGE_KEY = "than_so_hoc_gpt_messages_v3";
-const SETTINGS_KEY = "than_so_hoc_gpt_settings_v3";
-
+const STORAGE_KEY = "than_so_hoc_gpt_messages_v5";
+const SETTINGS_KEY = "than_so_hoc_gpt_settings_v5";
 const MASTER_NUMBERS = [11, 22, 33];
 
 const WELCOME_MESSAGE = {
   role: "assistant",
   content:
-    "Xin chào, tôi là Thần Số Học GPT. Bạn hãy nhập họ tên và ngày sinh theo dạng dd/mm/yyyy, hoặc viết tự nhiên như: 'Tôi tên Nguyễn Hoàng Long, sinh ngày 17/01/1989'. Tôi sẽ phân tích số chủ đạo, thái độ, linh hồn, nhân cách, sứ mệnh, năm cá nhân và đưa ra phần diễn giải dễ hiểu.",
+    "Xin chào, tôi là Thần Số Học GPT. Bạn hãy nhập họ tên và ngày sinh theo dạng dd/mm/yyyy, hoặc viết tự nhiên như: 'Tôi tên Nguyễn Hoàng Long, sinh ngày 17/01/1989'. Tôi sẽ phân tích số chủ đạo, thái độ, linh hồn, nhân cách, sứ mệnh, năm cá nhân, biểu đồ ngày sinh, mũi tên, kim tự tháp và 4 đỉnh cao cuộc đời, kèm hình minh hoạ cá nhân hoá.",
   time: new Date().toISOString(),
 };
 
@@ -160,18 +159,50 @@ const meanings = {
     8: "Năm cá nhân 8 hợp cho thành tựu, tài chính, đàm phán, kết quả và sức ảnh hưởng.",
     9: "Năm cá nhân 9 là lúc kết thúc chu kỳ cũ, buông bỏ, hoàn tất và dọn đường cho cái mới.",
   },
+  arrows: {
+    "1-2-3": "Mũi tên 1-2-3 thường gợi khả năng tư duy thực tế và sắp xếp ý tưởng khá ổn.",
+    "4-5-6": "Mũi tên 4-5-6 cho thấy nhịp hành động khá đều và có xu hướng làm tới nơi tới chốn.",
+    "7-8-9": "Mũi tên 7-8-9 thiên về hoạt động trí óc, tư duy lớn và học qua trải nghiệm.",
+    "1-4-7": "Mũi tên 1-4-7 gợi sự thực tế, biết làm, biết triển khai từng bước.",
+    "2-5-8": "Mũi tên 2-5-8 cho thấy cảm xúc có điểm cân bằng và biết cảm nhận môi trường.",
+    "3-6-9": "Mũi tên 3-6-9 thiên về sáng tạo, tưởng tượng, lý tưởng và tầm nhìn.",
+    "1-5-9": "Mũi tên 1-5-9 thường được xem là mũi tên quyết tâm mạnh.",
+    "3-5-7": "Mũi tên 3-5-7 gợi trực giác, độ nhạy và khả năng học qua chiều sâu trải nghiệm.",
+  },
+  emptyArrows: {
+    "1-2-3": "Mũi tên trống 1-2-3 cho thấy cần rèn thêm cách sắp xếp suy nghĩ và lập kế hoạch rõ ràng.",
+    "4-5-6": "Mũi tên trống 4-5-6 gợi bài học về nhịp hành động đều đặn và tính ổn định trong thực thi.",
+    "7-8-9": "Mũi tên trống 7-8-9 cho thấy nên mở rộng tầm nhìn và học nhiều hơn qua trải nghiệm thực tế.",
+    "1-4-7": "Mũi tên trống 1-4-7 là bài học về tính thực tế, kỷ luật và bền bỉ.",
+    "2-5-8": "Mũi tên trống 2-5-8 gợi việc cần rèn cân bằng cảm xúc và ổn định nội tâm.",
+    "3-6-9": "Mũi tên trống 3-6-9 cho thấy nên nuôi dưỡng trí tưởng tượng, niềm tin và tầm nhìn dài hơn.",
+    "1-5-9": "Mũi tên trống 1-5-9 gợi bài học về quyết tâm và khả năng theo mục tiêu tới cùng.",
+    "3-5-7": "Mũi tên trống 3-5-7 cho thấy cần nghe mình sâu hơn và tin vào trực giác lành mạnh.",
+  },
+  pinnacle: {
+    1: "Đỉnh này mang năng lượng khởi đầu, tự lập, tự khẳng định và mở đường mới.",
+    2: "Đỉnh này thiên về kiên nhẫn, quan hệ, hợp tác và học bài học mềm mại.",
+    3: "Đỉnh này thiên về sáng tạo, biểu đạt, truyền thông và mở rộng giao tiếp.",
+    4: "Đỉnh này tập trung vào xây nền tảng, lao động bền bỉ và cấu trúc rõ ràng.",
+    5: "Đỉnh này nhiều thay đổi, dịch chuyển, bước ngoặt và trải nghiệm mới.",
+    6: "Đỉnh này thiên về gia đình, trách nhiệm, chữa lành và cam kết.",
+    7: "Đỉnh này nhấn mạnh học sâu, chiêm nghiệm, phát triển nội tâm và tri thức.",
+    8: "Đỉnh này thiên về thành tựu, quản trị, tài chính và kết quả lớn.",
+    9: "Đỉnh này thiên về hoàn thiện, buông bỏ, phụng sự và khép chu kỳ cũ.",
+    11: "Đỉnh này mang màu sắc trực giác mạnh, cảm hứng và thức tỉnh tinh thần.",
+    22: "Đỉnh này nhấn mạnh khả năng xây dựng điều lớn và hiện thực hóa tầm nhìn.",
+    33: "Đỉnh này thiên về chữa lành, phụng sự và ảnh hưởng bằng tình thương sâu sắc.",
+  },
 };
 
 function reduceNumber(num, keepMasters = true) {
   let n = Number(num) || 0;
-
   while (n > 9) {
     if (keepMasters && MASTER_NUMBERS.includes(n)) return n;
     n = String(n)
       .split("")
       .reduce((sum, digit) => sum + Number(digit), 0);
   }
-
   return n;
 }
 
@@ -203,14 +234,14 @@ function parseDate(dateStr = "") {
 }
 
 function extractNameAndDate(input = "") {
-  const dateMatch = input.match(/(\d{1,2}\/\d{1,2}\/\d{4})/);
-  const dateText = dateMatch?.[1] || "";
+  const dateMatch = input.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  const dateText = dateMatch?.[0] || "";
   const date = dateText ? parseDate(dateText) : null;
 
   let name = input
     .replace(dateText, "")
     .replace(
-      /tôi tên là|tôi tên|ten toi la|ten toi|my name is|name is|sinh ngày|sinh ngay|ngày sinh|ngay sinh|toi la|hãy xem cho tôi|xem cho tôi|phân tích cho tôi/gi,
+      /tôi tên là|tôi tên|ten toi la|ten toi|my name is|name is|sinh ngày|sinh ngay|ngày sinh|ngay sinh|toi la|hãy xem cho tôi|xem cho tôi|phân tích cho tôi|lap cho toi|lập cho tôi/gi,
       " "
     )
     .replace(/[,:-]/g, " ")
@@ -218,7 +249,6 @@ function extractNameAndDate(input = "") {
     .trim();
 
   if (!name) name = "Bạn";
-
   return { name, date };
 }
 
@@ -295,6 +325,98 @@ function calcBirthdayNumber(date) {
   return reduceNumber(date.day, true);
 }
 
+function getBirthDigits(date) {
+  return `${String(date.day).padStart(2, "0")}${String(date.month).padStart(2, "0")}${date.year}`
+    .replace(/0/g, "")
+    .split("")
+    .map(Number);
+}
+
+function getBirthDigitCounts(date) {
+  const counts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0 };
+  getBirthDigits(date).forEach((n) => {
+    if (counts[n] !== undefined) counts[n] += 1;
+  });
+  return counts;
+}
+
+function buildBirthChart(counts) {
+  const grid = [
+    [3, 6, 9],
+    [2, 5, 8],
+    [1, 4, 7],
+  ];
+
+  return grid
+    .map((row) => row.map((n) => `[${counts[n] ? String(n).repeat(counts[n]) : "-"}]`).join(" "))
+    .join("\n");
+}
+
+function analyzeArrows(counts) {
+  const patterns = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+    [1, 4, 7],
+    [2, 5, 8],
+    [3, 6, 9],
+    [1, 5, 9],
+    [3, 5, 7],
+  ];
+
+  const strong = [];
+  const missing = [];
+
+  patterns.forEach((pattern) => {
+    const key = pattern.join("-");
+    const hasAll = pattern.every((n) => counts[n] > 0);
+    const hasNone = pattern.every((n) => counts[n] === 0);
+
+    if (hasAll) strong.push({ key, text: meanings.arrows[key] || `Mũi tên ${key}` });
+    if (hasNone) missing.push({ key, text: meanings.emptyArrows[key] || `Mũi tên trống ${key}` });
+  });
+
+  return { strong, missing };
+}
+
+function calcPinnacles(date) {
+  const month = reduceNumber(date.month, false);
+  const day = reduceNumber(date.day, false);
+  const year = reduceNumber(String(date.year).split("").reduce((a, b) => a + Number(b), 0), false);
+  const lifePath = calcLifePath(date);
+
+  const p1 = reduceNumber(month + day, false);
+  const p2 = reduceNumber(day + year, false);
+  const p3 = reduceNumber(p1 + p2, false);
+  const p4 = reduceNumber(month + year, false);
+
+  const firstEndAge = 36 - lifePath;
+
+  return [
+    { label: "Đỉnh cao 1", number: p1, ageStart: 0, ageEnd: firstEndAge },
+    { label: "Đỉnh cao 2", number: p2, ageStart: firstEndAge + 1, ageEnd: firstEndAge + 9 },
+    { label: "Đỉnh cao 3", number: p3, ageStart: firstEndAge + 10, ageEnd: firstEndAge + 18 },
+    { label: "Đỉnh cao 4", number: p4, ageStart: firstEndAge + 19, ageEnd: null },
+  ];
+}
+
+function buildPyramidText(date) {
+  const pinnacles = calcPinnacles(date);
+
+  return pinnacles
+    .map((item) => {
+      const yearStart = date.year + item.ageStart;
+      const yearEnd = item.ageEnd == null ? null : date.year + item.ageEnd;
+      const meaning = meanings.pinnacle[item.number] || `Đỉnh này mang năng lượng số ${item.number}.`;
+
+      return `${item.label}: số ${item.number}
+- Giai đoạn tuổi: ${item.ageStart}${item.ageEnd == null ? "+" : ` - ${item.ageEnd}`}
+- Mốc năm: ${yearStart}${yearEnd == null ? "+" : ` - ${yearEnd}`}
+- Ý nghĩa: ${meaning}`;
+    })
+    .join("\n\n");
+}
+
 function buildLifePathSection(lifePath) {
   const data = meanings.lifePath[lifePath];
   if (!data) {
@@ -317,6 +439,35 @@ Gợi ý:
 ${data.advice}`;
 }
 
+function buildVisualData(name, date, yearView) {
+  const lifePath = calcLifePath(date);
+  const attitude = calcAttitude(date);
+  const soulUrge = calcSoulUrge(name);
+  const personality = calcPersonality(name);
+  const expression = calcExpression(name);
+  const personalYear = calcPersonalYear(date, yearView);
+  const birthdayNumber = calcBirthdayNumber(date);
+  const counts = getBirthDigitCounts(date);
+  const arrows = analyzeArrows(counts);
+  const pinnacles = calcPinnacles(date);
+
+  return {
+    name,
+    date,
+    lifePath,
+    attitude,
+    soulUrge,
+    personality,
+    expression,
+    personalYear,
+    birthdayNumber,
+    counts,
+    arrows,
+    pinnacles,
+    yearView,
+  };
+}
+
 function buildChatReply(input, yearView) {
   const lower = normalizeVietnamese(input.toLowerCase());
 
@@ -324,7 +475,8 @@ function buildChatReply(input, yearView) {
     lower.includes("khac nhau giua so chu dao 6 va 7") ||
     lower.includes("giai thich su khac nhau giua so chu dao 6 va 7")
   ) {
-    return `So sánh số chủ đạo 6 và 7
+    return {
+      text: `So sánh số chủ đạo 6 và 7
 
 Số 6:
 - Thiên về yêu thương, chăm sóc, trách nhiệm.
@@ -338,40 +490,36 @@ Số 7:
 
 Nói ngắn gọn:
 - Số 6 nghiêng về trái tim và trách nhiệm với con người.
-- Số 7 nghiêng về chiều sâu nhận thức và hành trình nội tâm.
+- Số 7 nghiêng về chiều sâu nhận thức và trải nghiệm linh hồn.
 
-Không có số nào tốt hơn số nào, chỉ là khác chất. Số 6 đẹp ở sự ấm áp, số 7 đẹp ở chiều sâu.`;
-  }
-
-  if (
-    lower.includes("nam ca nhan") &&
-    !input.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/)
-  ) {
-    return "Để tính năm cá nhân chính xác, bạn hãy gửi cho tôi ngày sinh theo dạng dd/mm/yyyy. Ví dụ: 24/08/1992.";
+Không có số nào tốt hơn số nào, chỉ là khác chất. Số 6 đẹp ở sự ấm áp, số 7 đẹp ở chiều sâu.`,
+      visualData: null,
+    };
   }
 
   const { name, date } = extractNameAndDate(input);
 
   if (!date) {
-    return `Tôi chưa thấy ngày sinh hợp lệ trong tin nhắn của bạn.
+    return {
+      text: `Tôi chưa thấy ngày sinh hợp lệ trong tin nhắn của bạn.
 
 Bạn hãy nhập theo một trong các cách sau:
 - Tôi tên Nguyễn Hoàng Long, sinh ngày 17/01/1989
 - Phân tích thần số học cho Trần Minh Anh 10/11/1965
 - Cho tôi biết năm cá nhân ${yearView} của tôi, tôi sinh 24/08/1992
+- Lập biểu đồ ngày sinh, mũi tên và kim tự tháp cho tôi: Võ Văn Hải 10/11/1965
 
-Định dạng ngày sinh chuẩn là: dd/mm/yyyy`;
+Định dạng ngày sinh chuẩn là: dd/mm/yyyy`,
+      visualData: null,
+    };
   }
 
-  const lifePath = calcLifePath(date);
-  const attitude = calcAttitude(date);
-  const soulUrge = calcSoulUrge(name);
-  const personality = calcPersonality(name);
-  const expression = calcExpression(name);
-  const personalYear = calcPersonalYear(date, yearView);
-  const birthdayNumber = calcBirthdayNumber(date);
+  const visualData = buildVisualData(name, date, yearView);
+  const { lifePath, attitude, soulUrge, personality, expression, personalYear, birthdayNumber, counts, arrows } =
+    visualData;
 
-  return `HỒ SƠ THẦN SỐ HỌC
+  return {
+    text: `HỒ SƠ THẦN SỐ HỌC
 
 Họ tên: ${name}
 Ngày sinh: ${date.raw}
@@ -394,7 +542,23 @@ Số biểu đạt cho thấy cách bạn phát triển năng lực tổng thể
 6) Số ngày sinh: ${birthdayNumber}
 Đây là một sắc thái phụ nhưng khá thú vị, cho thấy một món quà tự nhiên hoặc xu hướng nổi bật đi kèm hành trình của bạn.
 
-7) Năm cá nhân ${yearView}: ${personalYear}
+7) Biểu đồ ngày sinh
+${buildBirthChart(counts)}
+Bố cục biểu đồ theo trục:
+3 - 6 - 9
+2 - 5 - 8
+1 - 4 - 7
+
+8) Mũi tên cá tính
+${arrows.strong.length ? `- ${arrows.strong.map((x) => x.text).join("\n- ")}` : "- Hiện không có mũi tên cá tính nổi bật theo 8 trục cơ bản."}
+
+9) Mũi tên trống / bài học
+${arrows.missing.length ? `- ${arrows.missing.map((x) => x.text).join("\n- ")}` : "- Không có mũi tên trống nổi bật theo 8 trục cơ bản."}
+
+10) Kim tự tháp / 4 đỉnh cao cuộc đời
+${buildPyramidText(date)}
+
+11) Năm cá nhân ${yearView}: ${personalYear}
 ${meanings.personalYear[personalYear] || "Đây là chu kỳ năm hiện tại của bạn."}
 
 TỔNG KẾT NHANH
@@ -406,12 +570,17 @@ TỔNG KẾT NHANH
 GỢI Ý ỨNG DỤNG
 - Nếu bạn đang cần định hướng: hãy ưu tiên sống đúng với phẩm chất tốt đẹp của số chủ đạo ${lifePath}
 - Nếu đang thấy mâu thuẫn nội tâm: xem lại khoảng cách giữa điều tim muốn (số linh hồn ${soulUrge}) và cách bạn đang sống bên ngoài (số nhân cách ${personality})
-- Nếu đang nhìn năm ${yearView}: hãy hành động theo nhịp của năm cá nhân ${personalYear} thay vì cố ép mọi thứ trái chu kỳ
+- Nếu muốn đọc sâu hơn về biểu đồ ngày sinh, hãy đặc biệt nhìn các số lặp nhiều và các mũi tên trống
+- Kim tự tháp và 4 đỉnh cao giúp bạn nhìn từng chặng đường đời theo giai đoạn, thay vì đánh giá toàn bộ cuộc đời chỉ bằng một thời điểm
 
-Nếu muốn, tôi có thể phân tích tiếp cho bạn theo một trong 3 hướng:
+Nếu muốn, tôi có thể phân tích tiếp cho bạn theo một trong 4 hướng:
 1. Giải thích kỹ hơn từng chỉ số
 2. Phân tích điểm mạnh - điểm yếu trong công việc và tình cảm
-3. Xem riêng năm cá nhân ${yearView} chi tiết hơn`;
+3. Xem riêng năm cá nhân ${yearView} chi tiết hơn
+4. Diễn giải sâu hơn biểu đồ ngày sinh, mũi tên và 4 đỉnh cao cuộc đời`,
+      visualData,
+    };
+  };
 }
 
 function formatTime(iso) {
@@ -428,6 +597,151 @@ function TypingDots() {
       <span />
       <span />
       <span />
+    </div>
+  );
+}
+
+function BirthChartGraphic({ counts }) {
+  const layout = [
+    [3, 6, 9],
+    [2, 5, 8],
+    [1, 4, 7],
+  ];
+
+  return (
+    <div style={styles.card}>
+      <div style={styles.cardTitle}>Biểu đồ ngày sinh</div>
+      <div style={styles.chartGrid}>
+        {layout.flat().map((n) => (
+          <div key={n} style={styles.chartCell}>
+            <div style={styles.chartCellNumber}>{n}</div>
+            <div style={styles.chartCellValue}>
+              {counts[n] ? String(n).repeat(counts[n]) : "—"}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div style={styles.cardHint}>Bố cục: 3-6-9 / 2-5-8 / 1-4-7</div>
+    </div>
+  );
+}
+
+function ArrowGraphic({ arrows }) {
+  const patternMeta = [
+    { key: "1-2-3", name: "1-2-3" },
+    { key: "4-5-6", name: "4-5-6" },
+    { key: "7-8-9", name: "7-8-9" },
+    { key: "1-4-7", name: "1-4-7" },
+    { key: "2-5-8", name: "2-5-8" },
+    { key: "3-6-9", name: "3-6-9" },
+    { key: "1-5-9", name: "1-5-9" },
+    { key: "3-5-7", name: "3-5-7" },
+  ];
+
+  const strongKeys = new Set(arrows.strong.map((x) => x.key));
+  const missingKeys = new Set(arrows.missing.map((x) => x.key));
+
+  return (
+    <div style={styles.card}>
+      <div style={styles.cardTitle}>Mũi tên cá tính & mũi tên trống</div>
+      <div style={styles.arrowList}>
+        {patternMeta.map((item) => {
+          const isStrong = strongKeys.has(item.key);
+          const isMissing = missingKeys.has(item.key);
+
+          return (
+            <div
+              key={item.key}
+              style={{
+                ...styles.arrowItem,
+                background: isStrong ? "#0f3f32" : isMissing ? "#3a1f1f" : "#1f2937",
+                borderColor: isStrong ? "#10a37f" : isMissing ? "#ef4444" : "#334155",
+              }}
+            >
+              <div style={styles.arrowName}>{item.name}</div>
+              <div style={styles.arrowStatus}>
+                {isStrong ? "Mạnh" : isMissing ? "Trống" : "Trung tính"}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <div style={styles.cardHint}>
+        Xanh = mũi tên hiện diện · Đỏ = mũi tên trống · Xám = không nổi bật
+      </div>
+    </div>
+  );
+}
+
+function PyramidGraphic({ pinnacles, birthYear }) {
+  const mapped = pinnacles.map((p) => ({
+    ...p,
+    yearStart: birthYear + p.ageStart,
+    yearEnd: p.ageEnd == null ? null : birthYear + p.ageEnd,
+  }));
+
+  return (
+    <div style={styles.card}>
+      <div style={styles.cardTitle}>Kim tự tháp cuộc đời</div>
+      <div style={styles.pyramidWrap}>
+        <div style={styles.pyramidRowTop}>
+          <div style={styles.pyramidNode}>{mapped[2].number}</div>
+        </div>
+        <div style={styles.pyramidRowMid}>
+          <div style={styles.pyramidNode}>{mapped[0].number}</div>
+          <div style={styles.pyramidNode}>{mapped[1].number}</div>
+        </div>
+        <div style={styles.pyramidRowBottom}>
+          <div style={styles.pyramidNodeLarge}>{mapped[3].number}</div>
+        </div>
+      </div>
+      <div style={styles.cardHint}>Các số trên đỉnh thể hiện bài học và năng lượng nổi bật theo từng chặng.</div>
+    </div>
+  );
+}
+
+function PinnaclesTimelineGraphic({ pinnacles, birthYear }) {
+  return (
+    <div style={styles.card}>
+      <div style={styles.cardTitle}>4 đỉnh cao cuộc đời</div>
+      <div style={styles.timeline}>
+        {pinnacles.map((item, idx) => {
+          const yearStart = birthYear + item.ageStart;
+          const yearEnd = item.ageEnd == null ? null : birthYear + item.ageEnd;
+
+          return (
+            <div key={item.label} style={styles.timelineItem}>
+              <div style={styles.timelineDot}>{idx + 1}</div>
+              <div style={styles.timelineContent}>
+                <div style={styles.timelineTitle}>
+                  {item.label} · Số {item.number}
+                </div>
+                <div style={styles.timelineMeta}>
+                  Tuổi {item.ageStart}
+                  {item.ageEnd == null ? "+" : ` - ${item.ageEnd}`} · Năm {yearStart}
+                  {yearEnd == null ? "+" : ` - ${yearEnd}`}
+                </div>
+                <div style={styles.timelineText}>
+                  {meanings.pinnacle[item.number] || `Đỉnh này mang năng lượng số ${item.number}.`}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function VisualPanel({ visualData }) {
+  if (!visualData) return null;
+
+  return (
+    <div style={styles.visualPanel}>
+      <BirthChartGraphic counts={visualData.counts} />
+      <ArrowGraphic arrows={visualData.arrows} />
+      <PyramidGraphic pinnacles={visualData.pinnacles} birthYear={visualData.date.year} />
+      <PinnaclesTimelineGraphic pinnacles={visualData.pinnacles} birthYear={visualData.date.year} />
     </div>
   );
 }
@@ -450,6 +764,8 @@ function Message({ message, onCopy }) {
 
           <div className="message-text">{message.content}</div>
 
+          {!isUser && message.visualData && <VisualPanel visualData={message.visualData} />}
+
           {!message.loading && (
             <div className="message-tools">
               <button className="small-btn" onClick={() => onCopy(message.content)}>
@@ -462,6 +778,164 @@ function Message({ message, onCopy }) {
     </div>
   );
 }
+
+const styles = {
+  visualPanel: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+    gap: 14,
+    marginTop: 18,
+  },
+  card: {
+    background: "#0f172a",
+    border: "1px solid #334155",
+    borderRadius: 16,
+    padding: 14,
+  },
+  cardTitle: {
+    fontWeight: 700,
+    marginBottom: 12,
+    fontSize: 15,
+  },
+  cardHint: {
+    marginTop: 10,
+    color: "#94a3b8",
+    fontSize: 12,
+    lineHeight: 1.4,
+  },
+  chartGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(3, 1fr)",
+    gap: 8,
+  },
+  chartCell: {
+    border: "1px solid #334155",
+    borderRadius: 12,
+    padding: 10,
+    minHeight: 68,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    background: "#111827",
+  },
+  chartCellNumber: {
+    fontSize: 12,
+    color: "#94a3b8",
+  },
+  chartCellValue: {
+    fontSize: 18,
+    fontWeight: 700,
+    letterSpacing: 1,
+  },
+  arrowList: {
+    display: "grid",
+    gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+    gap: 8,
+  },
+  arrowItem: {
+    border: "1px solid #334155",
+    borderRadius: 12,
+    padding: 10,
+  },
+  arrowName: {
+    fontWeight: 700,
+    fontSize: 13,
+    marginBottom: 4,
+  },
+  arrowStatus: {
+    fontSize: 12,
+    color: "#cbd5e1",
+  },
+  pyramidWrap: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: 10,
+    marginTop: 8,
+  },
+  pyramidRowTop: {
+    display: "flex",
+    justifyContent: "center",
+  },
+  pyramidRowMid: {
+    display: "flex",
+    gap: 18,
+    justifyContent: "center",
+  },
+  pyramidRowBottom: {
+    display: "flex",
+    justifyContent: "center",
+  },
+  pyramidNode: {
+    width: 56,
+    height: 56,
+    borderRadius: 16,
+    background: "#1e293b",
+    border: "1px solid #475569",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontWeight: 700,
+    fontSize: 22,
+  },
+  pyramidNodeLarge: {
+    width: 76,
+    height: 76,
+    borderRadius: 18,
+    background: "#0f3f32",
+    border: "1px solid #10a37f",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontWeight: 700,
+    fontSize: 28,
+  },
+  timeline: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 10,
+  },
+  timelineItem: {
+    display: "flex",
+    gap: 10,
+    alignItems: "flex-start",
+  },
+  timelineDot: {
+    width: 28,
+    height: 28,
+    borderRadius: 999,
+    background: "#10a37f",
+    color: "#fff",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: 12,
+    fontWeight: 700,
+    flexShrink: 0,
+    marginTop: 2,
+  },
+  timelineContent: {
+    flex: 1,
+    background: "#111827",
+    border: "1px solid #334155",
+    borderRadius: 12,
+    padding: 10,
+  },
+  timelineTitle: {
+    fontWeight: 700,
+    fontSize: 13,
+    marginBottom: 4,
+  },
+  timelineMeta: {
+    color: "#94a3b8",
+    fontSize: 12,
+    marginBottom: 6,
+  },
+  timelineText: {
+    fontSize: 13,
+    lineHeight: 1.5,
+  },
+};
 
 export default function App() {
   const [messages, setMessages] = useState(() => {
@@ -493,7 +967,7 @@ export default function App() {
       "Tôi tên Nguyễn Hoàng Long, sinh ngày 17/01/1989",
       "Phân tích thần số học cho Trần Minh Anh 10/11/1965",
       "Cho tôi biết năm cá nhân 2026 của tôi, tôi sinh 24/08/1992",
-      "Giải thích sự khác nhau giữa số chủ đạo 6 và 7",
+      "Lập biểu đồ ngày sinh, mũi tên và kim tự tháp cho tôi: Võ Văn Hải 10/11/1965",
     ],
     []
   );
@@ -555,13 +1029,14 @@ export default function App() {
     setTyping(true);
 
     try {
-      const reply = await simulateReply(text);
+      const result = await simulateReply(text);
 
       setMessages((prev) => [
         ...prev,
         {
           role: "assistant",
-          content: reply,
+          content: result.text,
+          visualData: result.visualData,
           time: new Date().toISOString(),
         },
       ]);
@@ -666,10 +1141,12 @@ export default function App() {
 
                 <div
                   className="hero-card"
-                  onClick={() => handleSend("Giải thích sự khác nhau giữa số chủ đạo 6 và 7")}
+                  onClick={() =>
+                    handleSend("Lập biểu đồ ngày sinh, mũi tên và kim tự tháp cho tôi: Võ Văn Hải 10/11/1965")
+                  }
                 >
-                  <h4>Giải thích chuyên sâu</h4>
-                  <p>Giải thích ngắn gọn, dễ hiểu, đúng kiểu chat trợ lý.</p>
+                  <h4>Biểu đồ & kim tự tháp</h4>
+                  <p>Thêm biểu đồ ngày sinh, mũi tên, 4 đỉnh cao và kim tự tháp.</p>
                 </div>
               </div>
             </section>
