@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
-const STORAGE_KEY = "than_so_hoc_gpt_messages_v5";
-const SETTINGS_KEY = "than_so_hoc_gpt_settings_v5";
+const STORAGE_KEY = "than_so_hoc_gpt_messages_v6";
+const SETTINGS_KEY = "than_so_hoc_gpt_settings_v6";
+const USER_HISTORY_KEY = "than_so_hoc_gpt_user_history_v6";
 const MASTER_NUMBERS = [11, 22, 33];
 
 const WELCOME_MESSAGE = {
@@ -9,6 +10,7 @@ const WELCOME_MESSAGE = {
   content:
     "Xin chào, tôi là Thần Số Học GPT. Bạn hãy nhập họ tên và ngày sinh theo dạng dd/mm/yyyy, hoặc viết tự nhiên như: 'Tôi tên Nguyễn Hoàng Long, sinh ngày 17/01/1989'. Tôi sẽ phân tích số chủ đạo, thái độ, linh hồn, nhân cách, sứ mệnh, năm cá nhân, biểu đồ ngày sinh, mũi tên, kim tự tháp và 4 đỉnh cao cuộc đời, kèm hình minh hoạ cá nhân hoá.",
   time: new Date().toISOString(),
+  visualData: null,
 };
 
 const meanings = {
@@ -578,8 +580,7 @@ Nếu muốn, tôi có thể phân tích tiếp cho bạn theo một trong 4 hư
 2. Phân tích điểm mạnh - điểm yếu trong công việc và tình cảm
 3. Xem riêng năm cá nhân ${yearView} chi tiết hơn
 4. Diễn giải sâu hơn biểu đồ ngày sinh, mũi tên và 4 đỉnh cao cuộc đời`,
-      visualData,
-    };
+    visualData,
   };
 }
 
@@ -591,17 +592,17 @@ function formatTime(iso) {
   });
 }
 
-function TypingDots() {
+function TypingDots({ theme }) {
   return (
-    <div className="typing" aria-label="Đang trả lời">
-      <span />
-      <span />
-      <span />
+    <div style={{ ...styles.typing, color: theme.muted }} aria-label="Đang trả lời">
+      <span style={{ ...styles.typingDot, background: theme.accent }} />
+      <span style={{ ...styles.typingDot, background: theme.accent }} />
+      <span style={{ ...styles.typingDot, background: theme.accent }} />
     </div>
   );
 }
 
-function BirthChartGraphic({ counts }) {
+function BirthChartGraphic({ counts, theme }) {
   const layout = [
     [3, 6, 9],
     [2, 5, 8],
@@ -609,24 +610,31 @@ function BirthChartGraphic({ counts }) {
   ];
 
   return (
-    <div style={styles.card}>
-      <div style={styles.cardTitle}>Biểu đồ ngày sinh</div>
+    <div style={{ ...styles.card, background: theme.card, borderColor: theme.border }}>
+      <div style={{ ...styles.cardTitle, color: theme.text }}>Biểu đồ ngày sinh</div>
       <div style={styles.chartGrid}>
         {layout.flat().map((n) => (
-          <div key={n} style={styles.chartCell}>
-            <div style={styles.chartCellNumber}>{n}</div>
-            <div style={styles.chartCellValue}>
+          <div
+            key={n}
+            style={{
+              ...styles.chartCell,
+              background: theme.panel,
+              borderColor: theme.border,
+            }}
+          >
+            <div style={{ ...styles.chartCellNumber, color: theme.muted }}>{n}</div>
+            <div style={{ ...styles.chartCellValue, color: theme.text }}>
               {counts[n] ? String(n).repeat(counts[n]) : "—"}
             </div>
           </div>
         ))}
       </div>
-      <div style={styles.cardHint}>Bố cục: 3-6-9 / 2-5-8 / 1-4-7</div>
+      <div style={{ ...styles.cardHint, color: theme.muted }}>Bố cục: 3-6-9 / 2-5-8 / 1-4-7</div>
     </div>
   );
 }
 
-function ArrowGraphic({ arrows }) {
+function ArrowGraphic({ arrows, theme }) {
   const patternMeta = [
     { key: "1-2-3", name: "1-2-3" },
     { key: "4-5-6", name: "4-5-6" },
@@ -642,8 +650,8 @@ function ArrowGraphic({ arrows }) {
   const missingKeys = new Set(arrows.missing.map((x) => x.key));
 
   return (
-    <div style={styles.card}>
-      <div style={styles.cardTitle}>Mũi tên cá tính & mũi tên trống</div>
+    <div style={{ ...styles.card, background: theme.card, borderColor: theme.border }}>
+      <div style={{ ...styles.cardTitle, color: theme.text }}>Mũi tên cá tính & mũi tên trống</div>
       <div style={styles.arrowList}>
         {patternMeta.map((item) => {
           const isStrong = strongKeys.has(item.key);
@@ -654,26 +662,26 @@ function ArrowGraphic({ arrows }) {
               key={item.key}
               style={{
                 ...styles.arrowItem,
-                background: isStrong ? "#0f3f32" : isMissing ? "#3a1f1f" : "#1f2937",
-                borderColor: isStrong ? "#10a37f" : isMissing ? "#ef4444" : "#334155",
+                background: isStrong ? theme.strongBg : isMissing ? theme.missingBg : theme.panel,
+                borderColor: isStrong ? theme.accent : isMissing ? theme.danger : theme.border,
               }}
             >
-              <div style={styles.arrowName}>{item.name}</div>
-              <div style={styles.arrowStatus}>
+              <div style={{ ...styles.arrowName, color: theme.text }}>{item.name}</div>
+              <div style={{ ...styles.arrowStatus, color: theme.muted }}>
                 {isStrong ? "Mạnh" : isMissing ? "Trống" : "Trung tính"}
               </div>
             </div>
           );
         })}
       </div>
-      <div style={styles.cardHint}>
+      <div style={{ ...styles.cardHint, color: theme.muted }}>
         Xanh = mũi tên hiện diện · Đỏ = mũi tên trống · Xám = không nổi bật
       </div>
     </div>
   );
 }
 
-function PyramidGraphic({ pinnacles, birthYear }) {
+function PyramidGraphic({ pinnacles, birthYear, theme }) {
   const mapped = pinnacles.map((p) => ({
     ...p,
     yearStart: birthYear + p.ageStart,
@@ -681,29 +689,46 @@ function PyramidGraphic({ pinnacles, birthYear }) {
   }));
 
   return (
-    <div style={styles.card}>
-      <div style={styles.cardTitle}>Kim tự tháp cuộc đời</div>
+    <div style={{ ...styles.card, background: theme.card, borderColor: theme.border }}>
+      <div style={{ ...styles.cardTitle, color: theme.text }}>Kim tự tháp cuộc đời</div>
       <div style={styles.pyramidWrap}>
         <div style={styles.pyramidRowTop}>
-          <div style={styles.pyramidNode}>{mapped[2].number}</div>
+          <div style={{ ...styles.pyramidNode, background: theme.panel, borderColor: theme.border, color: theme.text }}>
+            {mapped[2].number}
+          </div>
         </div>
         <div style={styles.pyramidRowMid}>
-          <div style={styles.pyramidNode}>{mapped[0].number}</div>
-          <div style={styles.pyramidNode}>{mapped[1].number}</div>
+          <div style={{ ...styles.pyramidNode, background: theme.panel, borderColor: theme.border, color: theme.text }}>
+            {mapped[0].number}
+          </div>
+          <div style={{ ...styles.pyramidNode, background: theme.panel, borderColor: theme.border, color: theme.text }}>
+            {mapped[1].number}
+          </div>
         </div>
         <div style={styles.pyramidRowBottom}>
-          <div style={styles.pyramidNodeLarge}>{mapped[3].number}</div>
+          <div
+            style={{
+              ...styles.pyramidNodeLarge,
+              background: theme.strongBg,
+              borderColor: theme.accent,
+              color: theme.text,
+            }}
+          >
+            {mapped[3].number}
+          </div>
         </div>
       </div>
-      <div style={styles.cardHint}>Các số trên đỉnh thể hiện bài học và năng lượng nổi bật theo từng chặng.</div>
+      <div style={{ ...styles.cardHint, color: theme.muted }}>
+        Các số trên đỉnh thể hiện bài học và năng lượng nổi bật theo từng chặng.
+      </div>
     </div>
   );
 }
 
-function PinnaclesTimelineGraphic({ pinnacles, birthYear }) {
+function PinnaclesTimelineGraphic({ pinnacles, birthYear, theme }) {
   return (
-    <div style={styles.card}>
-      <div style={styles.cardTitle}>4 đỉnh cao cuộc đời</div>
+    <div style={{ ...styles.card, background: theme.card, borderColor: theme.border }}>
+      <div style={{ ...styles.cardTitle, color: theme.text }}>4 đỉnh cao cuộc đời</div>
       <div style={styles.timeline}>
         {pinnacles.map((item, idx) => {
           const yearStart = birthYear + item.ageStart;
@@ -711,17 +736,17 @@ function PinnaclesTimelineGraphic({ pinnacles, birthYear }) {
 
           return (
             <div key={item.label} style={styles.timelineItem}>
-              <div style={styles.timelineDot}>{idx + 1}</div>
-              <div style={styles.timelineContent}>
-                <div style={styles.timelineTitle}>
+              <div style={{ ...styles.timelineDot, background: theme.accent }}>{idx + 1}</div>
+              <div style={{ ...styles.timelineContent, background: theme.panel, borderColor: theme.border }}>
+                <div style={{ ...styles.timelineTitle, color: theme.text }}>
                   {item.label} · Số {item.number}
                 </div>
-                <div style={styles.timelineMeta}>
+                <div style={{ ...styles.timelineMeta, color: theme.muted }}>
                   Tuổi {item.ageStart}
                   {item.ageEnd == null ? "+" : ` - ${item.ageEnd}`} · Năm {yearStart}
                   {yearEnd == null ? "+" : ` - ${yearEnd}`}
                 </div>
-                <div style={styles.timelineText}>
+                <div style={{ ...styles.timelineText, color: theme.text }}>
                   {meanings.pinnacle[item.number] || `Đỉnh này mang năng lượng số ${item.number}.`}
                 </div>
               </div>
@@ -733,53 +758,413 @@ function PinnaclesTimelineGraphic({ pinnacles, birthYear }) {
   );
 }
 
-function VisualPanel({ visualData }) {
+function VisualPanel({ visualData, theme }) {
   if (!visualData) return null;
 
   return (
     <div style={styles.visualPanel}>
-      <BirthChartGraphic counts={visualData.counts} />
-      <ArrowGraphic arrows={visualData.arrows} />
-      <PyramidGraphic pinnacles={visualData.pinnacles} birthYear={visualData.date.year} />
-      <PinnaclesTimelineGraphic pinnacles={visualData.pinnacles} birthYear={visualData.date.year} />
+      <BirthChartGraphic counts={visualData.counts} theme={theme} />
+      <ArrowGraphic arrows={visualData.arrows} theme={theme} />
+      <PyramidGraphic pinnacles={visualData.pinnacles} birthYear={visualData.date.year} theme={theme} />
+      <PinnaclesTimelineGraphic pinnacles={visualData.pinnacles} birthYear={visualData.date.year} theme={theme} />
     </div>
   );
 }
 
-function Message({ message, onCopy }) {
+function Message({ message, onCopy, theme }) {
   const isUser = message.role === "user";
 
   return (
-    <div className="message-wrap">
-      <div className={`message-row ${isUser ? "user" : "assistant"}`}>
-        <div className={`avatar ${isUser ? "user" : "assistant"}`}>
-          {isUser ? "👤" : "🔮"}
-        </div>
+    <div style={styles.messageWrap}>
+      <div
+        style={{
+          ...styles.messageRow,
+          justifyContent: isUser ? "flex-end" : "flex-start",
+        }}
+      >
+        {!isUser && (
+          <div
+            style={{
+              ...styles.avatar,
+              background: theme.strongBg,
+              borderColor: theme.border,
+            }}
+          >
+            🔮
+          </div>
+        )}
 
-        <div className="message-content">
-          <div className="message-meta">
-            <div className="message-author">{isUser ? "Bạn" : "Thần Số Học GPT"}</div>
-            <div className="message-time">{formatTime(message.time)}</div>
+        <div
+          style={{
+            ...styles.messageContent,
+            background: isUser ? theme.userBubble : theme.assistantBubble,
+            borderColor: theme.border,
+          }}
+        >
+          <div style={styles.messageMeta}>
+            <div style={{ ...styles.messageAuthor, color: theme.text }}>
+              {isUser ? "Bạn" : "Thần Số Học GPT"}
+            </div>
+            <div style={{ ...styles.messageTime, color: theme.muted }}>{formatTime(message.time)}</div>
           </div>
 
-          <div className="message-text">{message.content}</div>
+          <div
+            style={{
+              ...styles.messageText,
+              color: theme.text,
+              whiteSpace: "pre-wrap",
+            }}
+          >
+            {message.content}
+          </div>
 
-          {!isUser && message.visualData && <VisualPanel visualData={message.visualData} />}
+          {!isUser && message.visualData && <VisualPanel visualData={message.visualData} theme={theme} />}
 
           {!message.loading && (
-            <div className="message-tools">
-              <button className="small-btn" onClick={() => onCopy(message.content)}>
+            <div style={styles.messageTools}>
+              <button
+                style={{
+                  ...styles.smallBtn,
+                  background: theme.panel,
+                  borderColor: theme.border,
+                  color: theme.text,
+                }}
+                onClick={() => onCopy(message.content)}
+              >
                 Sao chép
               </button>
             </div>
           )}
         </div>
+
+        {isUser && (
+          <div
+            style={{
+              ...styles.avatar,
+              background: theme.panel,
+              borderColor: theme.border,
+            }}
+          >
+            👤
+          </div>
+        )}
       </div>
     </div>
   );
 }
 
+const darkTheme = {
+  appBg: "#0b1020",
+  sidebarBg: "#0f172a",
+  mainBg: "#111827",
+  card: "#0f172a",
+  panel: "#111827",
+  border: "#334155",
+  text: "#e5e7eb",
+  muted: "#94a3b8",
+  accent: "#10a37f",
+  accentSoft: "#0f3f32",
+  danger: "#ef4444",
+  strongBg: "#0f3f32",
+  missingBg: "#3a1f1f",
+  userBubble: "#0f3f32",
+  assistantBubble: "#0f172a",
+  heroCard: "#111827",
+  inputBg: "#0f172a",
+};
+
+const lightTheme = {
+  appBg: "#f8fafc",
+  sidebarBg: "#ffffff",
+  mainBg: "#f8fafc",
+  card: "#ffffff",
+  panel: "#f8fafc",
+  border: "#dbe4ee",
+  text: "#0f172a",
+  muted: "#64748b",
+  accent: "#10a37f",
+  accentSoft: "#dcfce7",
+  danger: "#dc2626",
+  strongBg: "#dcfce7",
+  missingBg: "#fee2e2",
+  userBubble: "#dcfce7",
+  assistantBubble: "#ffffff",
+  heroCard: "#ffffff",
+  inputBg: "#ffffff",
+};
+
 const styles = {
+  appShell: {
+    display: "grid",
+    gridTemplateColumns: "320px 1fr",
+    minHeight: "100vh",
+  },
+  sidebar: {
+    padding: 20,
+    borderRight: "1px solid",
+  },
+  brandBox: {
+    marginBottom: 16,
+  },
+  brandTitle: {
+    fontSize: 28,
+    fontWeight: 800,
+    margin: 0,
+    lineHeight: 1.1,
+  },
+  brandSubtitle: {
+    fontSize: 13,
+    marginTop: 8,
+    lineHeight: 1.5,
+  },
+  main: {
+    display: "flex",
+    flexDirection: "column",
+    minWidth: 0,
+  },
+  mainHeader: {
+    padding: "24px 28px 8px",
+    borderBottom: "1px solid transparent",
+  },
+  headerTitle: {
+    fontSize: 38,
+    fontWeight: 800,
+    margin: 0,
+  },
+  headerSubtitle: {
+    fontSize: 14,
+    marginTop: 8,
+  },
+  primaryBtn: {
+    width: "100%",
+    padding: "12px 14px",
+    borderRadius: 14,
+    border: "none",
+    fontSize: 15,
+    fontWeight: 700,
+    cursor: "pointer",
+    marginBottom: 16,
+  },
+  sidebarCard: {
+    padding: 14,
+    borderRadius: 16,
+    border: "1px solid",
+    marginBottom: 14,
+  },
+  sidebarLabel: {
+    display: "block",
+    fontSize: 12,
+    marginBottom: 8,
+  },
+  sidebarInput: {
+    width: "100%",
+    padding: "10px 12px",
+    borderRadius: 12,
+    border: "1px solid",
+    outline: "none",
+    fontSize: 14,
+    marginBottom: 10,
+    boxSizing: "border-box",
+  },
+  sidebarActions: {
+    display: "flex",
+    gap: 8,
+    flexWrap: "wrap",
+  },
+  secondaryBtn: {
+    padding: "10px 12px",
+    borderRadius: 12,
+    border: "1px solid",
+    background: "transparent",
+    cursor: "pointer",
+    fontSize: 13,
+    fontWeight: 600,
+  },
+  ghostBtn: {
+    padding: "10px 12px",
+    borderRadius: 12,
+    border: "1px solid",
+    background: "transparent",
+    cursor: "pointer",
+    fontSize: 13,
+    fontWeight: 600,
+  },
+  suggestionList: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 8,
+  },
+  suggestionBtn: {
+    textAlign: "left",
+    padding: "10px 12px",
+    borderRadius: 12,
+    border: "1px solid",
+    background: "transparent",
+    cursor: "pointer",
+    fontSize: 13,
+    lineHeight: 1.4,
+  },
+  userHistoryItem: {
+    padding: "10px 12px",
+    borderRadius: 12,
+    border: "1px solid",
+    cursor: "pointer",
+    marginBottom: 8,
+  },
+  userHistoryName: {
+    fontWeight: 700,
+    fontSize: 13,
+    marginBottom: 4,
+  },
+  userHistoryMeta: {
+    fontSize: 12,
+    lineHeight: 1.4,
+  },
+  chatScroll: {
+    flex: 1,
+    overflowY: "auto",
+    padding: "22px 28px 160px",
+  },
+  hero: {
+    marginBottom: 24,
+    borderRadius: 24,
+    padding: 24,
+    border: "1px solid",
+  },
+  heroTitle: {
+    fontSize: 48,
+    fontWeight: 800,
+    margin: 0,
+    textAlign: "center",
+  },
+  heroText: {
+    textAlign: "center",
+    fontSize: 16,
+    lineHeight: 1.6,
+    maxWidth: 780,
+    margin: "14px auto 0",
+  },
+  heroActions: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+    gap: 12,
+    marginTop: 22,
+  },
+  heroCard: {
+    borderRadius: 18,
+    border: "1px solid",
+    padding: 16,
+    cursor: "pointer",
+  },
+  messageWrap: {
+    marginBottom: 18,
+  },
+  messageRow: {
+    display: "flex",
+    gap: 12,
+    alignItems: "flex-start",
+  },
+  avatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 999,
+    border: "1px solid",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexShrink: 0,
+    fontSize: 18,
+  },
+  messageContent: {
+    maxWidth: "980px",
+    width: "100%",
+    borderRadius: 20,
+    border: "1px solid",
+    padding: 16,
+    boxSizing: "border-box",
+  },
+  messageMeta: {
+    display: "flex",
+    justifyContent: "space-between",
+    gap: 12,
+    marginBottom: 10,
+    fontSize: 12,
+  },
+  messageAuthor: {
+    fontWeight: 700,
+  },
+  messageTime: {},
+  messageText: {
+    lineHeight: 1.75,
+    fontSize: 15,
+  },
+  messageTools: {
+    marginTop: 12,
+  },
+  smallBtn: {
+    padding: "8px 10px",
+    borderRadius: 10,
+    border: "1px solid",
+    cursor: "pointer",
+    fontSize: 12,
+    fontWeight: 600,
+  },
+  chatInputBar: {
+    position: "sticky",
+    bottom: 0,
+    padding: "18px 22px 22px",
+    backdropFilter: "blur(12px)",
+  },
+  chatInputInner: {
+    maxWidth: 980,
+    margin: "0 auto",
+  },
+  chatBox: {
+    display: "flex",
+    alignItems: "flex-end",
+    gap: 12,
+    border: "1px solid",
+    borderRadius: 22,
+    padding: 12,
+  },
+  chatTextarea: {
+    width: "100%",
+    border: "none",
+    outline: "none",
+    resize: "none",
+    background: "transparent",
+    fontSize: 15,
+    lineHeight: 1.55,
+    fontFamily: "inherit",
+    maxHeight: 220,
+  },
+  sendBtn: {
+    width: 44,
+    height: 44,
+    borderRadius: 14,
+    border: "none",
+    cursor: "pointer",
+    fontSize: 18,
+    fontWeight: 700,
+    flexShrink: 0,
+  },
+  chatHint: {
+    textAlign: "center",
+    fontSize: 12,
+    marginTop: 8,
+  },
+  typing: {
+    display: "flex",
+    gap: 8,
+    padding: "8px 0",
+  },
+  typingDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 999,
+    display: "inline-block",
+    opacity: 0.9,
+  },
   visualPanel: {
     display: "grid",
     gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
@@ -787,8 +1172,7 @@ const styles = {
     marginTop: 18,
   },
   card: {
-    background: "#0f172a",
-    border: "1px solid #334155",
+    border: "1px solid",
     borderRadius: 16,
     padding: 14,
   },
@@ -799,7 +1183,6 @@ const styles = {
   },
   cardHint: {
     marginTop: 10,
-    color: "#94a3b8",
     fontSize: 12,
     lineHeight: 1.4,
   },
@@ -809,18 +1192,16 @@ const styles = {
     gap: 8,
   },
   chartCell: {
-    border: "1px solid #334155",
+    border: "1px solid",
     borderRadius: 12,
     padding: 10,
     minHeight: 68,
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    background: "#111827",
   },
   chartCellNumber: {
     fontSize: 12,
-    color: "#94a3b8",
   },
   chartCellValue: {
     fontSize: 18,
@@ -833,7 +1214,7 @@ const styles = {
     gap: 8,
   },
   arrowItem: {
-    border: "1px solid #334155",
+    border: "1px solid",
     borderRadius: 12,
     padding: 10,
   },
@@ -844,7 +1225,6 @@ const styles = {
   },
   arrowStatus: {
     fontSize: 12,
-    color: "#cbd5e1",
   },
   pyramidWrap: {
     display: "flex",
@@ -870,8 +1250,7 @@ const styles = {
     width: 56,
     height: 56,
     borderRadius: 16,
-    background: "#1e293b",
-    border: "1px solid #475569",
+    border: "1px solid",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -882,8 +1261,7 @@ const styles = {
     width: 76,
     height: 76,
     borderRadius: 18,
-    background: "#0f3f32",
-    border: "1px solid #10a37f",
+    border: "1px solid",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -904,7 +1282,6 @@ const styles = {
     width: 28,
     height: 28,
     borderRadius: 999,
-    background: "#10a37f",
     color: "#fff",
     display: "flex",
     alignItems: "center",
@@ -916,8 +1293,7 @@ const styles = {
   },
   timelineContent: {
     flex: 1,
-    background: "#111827",
-    border: "1px solid #334155",
+    border: "1px solid",
     borderRadius: 12,
     padding: 10,
   },
@@ -927,7 +1303,6 @@ const styles = {
     marginBottom: 4,
   },
   timelineMeta: {
-    color: "#94a3b8",
     fontSize: 12,
     marginBottom: 6,
   },
@@ -950,9 +1325,18 @@ export default function App() {
   const [settings, setSettings] = useState(() => {
     try {
       const saved = localStorage.getItem(SETTINGS_KEY);
-      return saved ? JSON.parse(saved) : { yearView: 2026 };
+      return saved ? JSON.parse(saved) : { yearView: 2026, themeMode: "dark" };
     } catch {
-      return { yearView: 2026 };
+      return { yearView: 2026, themeMode: "dark" };
+    }
+  });
+
+  const [userHistory, setUserHistory] = useState(() => {
+    try {
+      const saved = localStorage.getItem(USER_HISTORY_KEY);
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
     }
   });
 
@@ -961,6 +1345,8 @@ export default function App() {
 
   const textareaRef = useRef(null);
   const endRef = useRef(null);
+
+  const theme = settings.themeMode === "light" ? lightTheme : darkTheme;
 
   const suggestions = useMemo(
     () => [
@@ -981,6 +1367,10 @@ export default function App() {
   }, [settings]);
 
   useEffect(() => {
+    localStorage.setItem(USER_HISTORY_KEY, JSON.stringify(userHistory));
+  }, [userHistory]);
+
+  useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, typing]);
 
@@ -990,10 +1380,37 @@ export default function App() {
     textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 220)}px`;
   }, [input]);
 
+  useEffect(() => {
+    document.body.style.margin = "0";
+    document.body.style.background = theme.appBg;
+    document.body.style.color = theme.text;
+    document.body.style.fontFamily =
+      'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+  }, [theme]);
+
   function resetChat() {
     setMessages([WELCOME_MESSAGE]);
     setInput("");
     setTyping(false);
+  }
+
+  function addUserToHistory(visualData) {
+    if (!visualData) return;
+
+    const item = {
+      id: `${visualData.name}-${visualData.date.raw}`,
+      name: visualData.name,
+      dob: visualData.date.raw,
+      lifePath: visualData.lifePath,
+      personalYear: visualData.personalYear,
+      viewedAt: new Date().toISOString(),
+      prompt: `Tôi tên ${visualData.name}, sinh ngày ${visualData.date.raw}`,
+    };
+
+    setUserHistory((prev) => {
+      const filtered = prev.filter((x) => x.id !== item.id);
+      return [item, ...filtered].slice(0, 12);
+    });
   }
 
   async function copyText(text) {
@@ -1022,6 +1439,7 @@ export default function App() {
       role: "user",
       content: text,
       time: new Date().toISOString(),
+      visualData: null,
     };
 
     setMessages((prev) => [...prev, userMessage]);
@@ -1030,6 +1448,10 @@ export default function App() {
 
     try {
       const result = await simulateReply(text);
+
+      if (result.visualData) {
+        addUserToHistory(result.visualData);
+      }
 
       setMessages((prev) => [
         ...prev,
@@ -1046,22 +1468,49 @@ export default function App() {
   }
 
   return (
-    <div className="app-shell">
-      <aside className="sidebar">
-        <div className="brand-box">
-          <h1 className="brand-title">Thần Số Học GPT</h1>
-          <p className="brand-subtitle">Bản local thông minh · không cần backend</p>
+    <div style={{ ...styles.appShell, background: theme.appBg }}>
+      <aside
+        style={{
+          ...styles.sidebar,
+          background: theme.sidebarBg,
+          borderColor: theme.border,
+        }}
+      >
+        <div style={styles.brandBox}>
+          <h1 style={{ ...styles.brandTitle, color: theme.text }}>Thần Số Học GPT</h1>
+          <p style={{ ...styles.brandSubtitle, color: theme.muted }}>
+            Bản local thông minh · không cần backend
+          </p>
         </div>
 
-        <button className="primary-btn" onClick={resetChat}>
+        <button
+          style={{
+            ...styles.primaryBtn,
+            background: theme.accent,
+            color: "#fff",
+          }}
+          onClick={resetChat}
+        >
           ✨ Cuộc trò chuyện mới
         </button>
 
-        <div className="sidebar-card">
-          <h3>Tùy chọn phân tích</h3>
-          <label className="sidebar-label">Năm cần xem</label>
+        <div
+          style={{
+            ...styles.sidebarCard,
+            background: theme.card,
+            borderColor: theme.border,
+          }}
+        >
+          <h3 style={{ color: theme.text, marginTop: 0 }}>Tùy chọn phân tích</h3>
+
+          <label style={{ ...styles.sidebarLabel, color: theme.muted }}>Năm cần xem</label>
           <input
-            className="sidebar-input"
+            style={{
+              ...styles.sidebarInput,
+              background: theme.panel,
+              borderColor: theme.border,
+              color: theme.text,
+            }}
             type="number"
             value={settings.yearView}
             onChange={(e) =>
@@ -1072,16 +1521,54 @@ export default function App() {
             }
           />
 
-          <div className="sidebar-actions">
-            <button className="secondary-btn" onClick={resetChat}>
+          <label style={{ ...styles.sidebarLabel, color: theme.muted }}>Giao diện</label>
+          <div style={{ ...styles.sidebarActions, marginBottom: 10 }}>
+            <button
+              style={{
+                ...styles.secondaryBtn,
+                background: settings.themeMode === "dark" ? theme.accentSoft : "transparent",
+                borderColor: theme.border,
+                color: theme.text,
+              }}
+              onClick={() => setSettings((prev) => ({ ...prev, themeMode: "dark" }))}
+            >
+              🌙 Dark
+            </button>
+            <button
+              style={{
+                ...styles.secondaryBtn,
+                background: settings.themeMode === "light" ? theme.accentSoft : "transparent",
+                borderColor: theme.border,
+                color: theme.text,
+              }}
+              onClick={() => setSettings((prev) => ({ ...prev, themeMode: "light" }))}
+            >
+              ☀️ Light
+            </button>
+          </div>
+
+          <div style={styles.sidebarActions}>
+            <button
+              style={{
+                ...styles.secondaryBtn,
+                borderColor: theme.border,
+                color: theme.text,
+              }}
+              onClick={resetChat}
+            >
               Xóa chat
             </button>
 
             <button
-              className="ghost-btn"
+              style={{
+                ...styles.ghostBtn,
+                borderColor: theme.border,
+                color: theme.text,
+              }}
               onClick={() => {
                 localStorage.removeItem(STORAGE_KEY);
                 localStorage.removeItem(SETTINGS_KEY);
+                localStorage.removeItem(USER_HISTORY_KEY);
                 window.location.reload();
               }}
             >
@@ -1090,13 +1577,24 @@ export default function App() {
           </div>
         </div>
 
-        <div className="sidebar-card">
-          <h3>Gợi ý nhập nhanh</h3>
-          <div className="suggestion-list">
+        <div
+          style={{
+            ...styles.sidebarCard,
+            background: theme.card,
+            borderColor: theme.border,
+          }}
+        >
+          <h3 style={{ color: theme.text, marginTop: 0 }}>Gợi ý nhập nhanh</h3>
+          <div style={styles.suggestionList}>
             {suggestions.map((item) => (
               <button
                 key={item}
-                className="suggestion-btn"
+                style={{
+                  ...styles.suggestionBtn,
+                  borderColor: theme.border,
+                  color: theme.text,
+                  background: theme.panel,
+                }}
                 onClick={() => handleSend(item)}
               >
                 {item}
@@ -1104,67 +1602,141 @@ export default function App() {
             ))}
           </div>
         </div>
+
+        <div
+          style={{
+            ...styles.sidebarCard,
+            background: theme.card,
+            borderColor: theme.border,
+          }}
+        >
+          <h3 style={{ color: theme.text, marginTop: 0 }}>Lịch sử người dùng</h3>
+          {userHistory.length === 0 ? (
+            <div style={{ color: theme.muted, fontSize: 13 }}>
+              Chưa có hồ sơ nào được lưu.
+            </div>
+          ) : (
+            <div>
+              {userHistory.map((item) => (
+                <div
+                  key={item.id}
+                  style={{
+                    ...styles.userHistoryItem,
+                    background: theme.panel,
+                    borderColor: theme.border,
+                  }}
+                  onClick={() => handleSend(item.prompt)}
+                >
+                  <div style={{ ...styles.userHistoryName, color: theme.text }}>{item.name}</div>
+                  <div style={{ ...styles.userHistoryMeta, color: theme.muted }}>
+                    {item.dob} · Số chủ đạo {item.lifePath} · Năm cá nhân {item.personalYear}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </aside>
 
-      <main className="main">
-        <header className="main-header">
-          <h1>Thần Số Học GPT</h1>
-          <p>Giao diện kiểu ChatGPT · lưu lịch sử chat · không tốn phí API</p>
+      <main style={{ ...styles.main, background: theme.mainBg }}>
+        <header style={styles.mainHeader}>
+          <h1 style={{ ...styles.headerTitle, color: theme.text }}>Thần Số Học GPT</h1>
+          <p style={{ ...styles.headerSubtitle, color: theme.muted }}>
+            Giao diện kiểu ChatGPT · lưu lịch sử chat · lịch sử người dùng · dark / light mode
+          </p>
         </header>
 
-        <div className="chat-scroll">
+        <div style={styles.chatScroll}>
           {messages.length <= 1 && (
-            <section className="hero">
-              <h2>Thần Số Học GPT</h2>
-              <p>
-                Nhập họ tên và ngày sinh để nhận phân tích thần số học theo phong cách chat tự nhiên, rõ ràng và dễ đọc.
+            <section
+              style={{
+                ...styles.hero,
+                background: theme.card,
+                borderColor: theme.border,
+              }}
+            >
+              <h2 style={{ ...styles.heroTitle, color: theme.text }}>Thần Số Học GPT</h2>
+              <p style={{ ...styles.heroText, color: theme.muted }}>
+                Nhập họ tên và ngày sinh để nhận phân tích thần số học theo phong cách chat tự nhiên, rõ ràng, dễ đọc và có hình minh hoạ cá nhân hoá.
               </p>
 
-              <div className="hero-actions">
+              <div style={styles.heroActions}>
                 <div
-                  className="hero-card"
+                  style={{
+                    ...styles.heroCard,
+                    background: theme.heroCard,
+                    borderColor: theme.border,
+                  }}
                   onClick={() => handleSend("Tôi tên Nguyễn Hoàng Long, sinh ngày 17/01/1989")}
                 >
-                  <h4>Phân tích cơ bản</h4>
-                  <p>Số chủ đạo, linh hồn, nhân cách, sứ mệnh và năm cá nhân.</p>
+                  <h4 style={{ color: theme.text, marginTop: 0 }}>Phân tích cơ bản</h4>
+                  <p style={{ color: theme.muted, marginBottom: 0 }}>
+                    Số chủ đạo, linh hồn, nhân cách, sứ mệnh và năm cá nhân.
+                  </p>
                 </div>
 
                 <div
-                  className="hero-card"
+                  style={{
+                    ...styles.heroCard,
+                    background: theme.heroCard,
+                    borderColor: theme.border,
+                  }}
                   onClick={() =>
                     handleSend("Cho tôi biết năm cá nhân 2026 của tôi, tôi sinh 24/08/1992")
                   }
                 >
-                  <h4>Xem năm cá nhân</h4>
-                  <p>Tập trung vào chu kỳ năm hiện tại và định hướng hành động.</p>
+                  <h4 style={{ color: theme.text, marginTop: 0 }}>Xem năm cá nhân</h4>
+                  <p style={{ color: theme.muted, marginBottom: 0 }}>
+                    Tập trung vào chu kỳ năm hiện tại và định hướng hành động.
+                  </p>
                 </div>
 
                 <div
-                  className="hero-card"
+                  style={{
+                    ...styles.heroCard,
+                    background: theme.heroCard,
+                    borderColor: theme.border,
+                  }}
                   onClick={() =>
                     handleSend("Lập biểu đồ ngày sinh, mũi tên và kim tự tháp cho tôi: Võ Văn Hải 10/11/1965")
                   }
                 >
-                  <h4>Biểu đồ & kim tự tháp</h4>
-                  <p>Thêm biểu đồ ngày sinh, mũi tên, 4 đỉnh cao và kim tự tháp.</p>
+                  <h4 style={{ color: theme.text, marginTop: 0 }}>Biểu đồ & kim tự tháp</h4>
+                  <p style={{ color: theme.muted, marginBottom: 0 }}>
+                    Thêm biểu đồ ngày sinh, mũi tên, 4 đỉnh cao và kim tự tháp.
+                  </p>
                 </div>
               </div>
             </section>
           )}
 
           {messages.map((message, idx) => (
-            <Message key={`${message.time}-${idx}`} message={message} onCopy={copyText} />
+            <Message key={`${message.time}-${idx}`} message={message} onCopy={copyText} theme={theme} />
           ))}
 
           {typing && (
-            <div className="message-wrap">
-              <div className="message-row assistant">
-                <div className="avatar assistant">🔮</div>
-                <div className="message-content">
-                  <div className="message-meta">
-                    <div className="message-author">Thần Số Học GPT</div>
+            <div style={styles.messageWrap}>
+              <div style={{ ...styles.messageRow, justifyContent: "flex-start" }}>
+                <div
+                  style={{
+                    ...styles.avatar,
+                    background: theme.strongBg,
+                    borderColor: theme.border,
+                  }}
+                >
+                  🔮
+                </div>
+                <div
+                  style={{
+                    ...styles.messageContent,
+                    background: theme.assistantBubble,
+                    borderColor: theme.border,
+                  }}
+                >
+                  <div style={styles.messageMeta}>
+                    <div style={{ ...styles.messageAuthor, color: theme.text }}>Thần Số Học GPT</div>
                   </div>
-                  <TypingDots />
+                  <TypingDots theme={theme} />
                 </div>
               </div>
             </div>
@@ -1173,12 +1745,26 @@ export default function App() {
           <div ref={endRef} />
         </div>
 
-        <div className="chat-input-bar">
-          <div className="chat-input-inner">
-            <div className="chat-box">
+        <div
+          style={{
+            ...styles.chatInputBar,
+            background: `${theme.mainBg}cc`,
+          }}
+        >
+          <div style={styles.chatInputInner}>
+            <div
+              style={{
+                ...styles.chatBox,
+                background: theme.inputBg,
+                borderColor: theme.border,
+              }}
+            >
               <textarea
                 ref={textareaRef}
-                className="chat-textarea"
+                style={{
+                  ...styles.chatTextarea,
+                  color: theme.text,
+                }}
                 rows={1}
                 value={input}
                 placeholder="Nhập họ tên và ngày sinh của bạn..."
@@ -1190,11 +1776,19 @@ export default function App() {
                   }
                 }}
               />
-              <button className="send-btn" onClick={() => handleSend()} disabled={!input.trim()}>
+              <button
+                style={{
+                  ...styles.sendBtn,
+                  background: input.trim() ? theme.accent : theme.border,
+                  color: "#fff",
+                }}
+                onClick={() => handleSend()}
+                disabled={!input.trim()}
+              >
                 ➤
               </button>
             </div>
-            <div className="chat-hint">
+            <div style={{ ...styles.chatHint, color: theme.muted }}>
               Ví dụ: Tôi tên Nguyễn Hoàng Long, sinh ngày 17/01/1989
             </div>
           </div>
