@@ -1,5 +1,26 @@
 export const LIFE_PATH_11 = `Con Số Chủ Đạo 11
 
-Con số chủ đạo 11 có một mức độ tâm linh...
-(👉 full nội dung số 10)
-`;
+Con số chủ đạo 11 có một mức độ tâm linh đặc biệt cao bao quanh, làm cho những ai sinh ra dưới Con số chủ đạo này dễ có một tiềm năng phát triển Tầng Ý thức Cao rất mạnh. Tuy vậy, phần lớn những người số này lại không đủ khả năng phát triển những tiềm năng tiềm ẩn này, nhưng hy vọng điều này sẽ sớm bị phá vỡ cùng với sự phát triển của thời đại mới – thời đại phát triển nhận thức (thế kỷ 21).
+
+Mặc dù Số 11 cũng không phổ biến như nhiều Con số chủ đạo khác, nhưng họ chắc chắn sẽ có cơ hội đẩy mạnh tiềm năng mà họ đang có, một khi họ ý thức được bản thân họ có giá trị tinh thần cao đến thế nào. Trên thực tế, chỉ có hai con số tổng của ngày sinh cộng lại ra được Con số chủ đạo là 11, đó là 29 và 38, và thỉnh thoảng, hy hữu lắm ta mới bắt gặp được số 47.
+
+MỤC ĐÍCH SỐNG:
+Những người Số 11 nằm trong số ít ỏi những người được trang bị ‘vốn tâm linh’ tiềm tàng tốt đẹp nhất để đưa thời đại chúng ta tiến vào thời đại nhận thức. Nói về mặt tâm linh, đây là một kiếp sống đầy trách nhiệm mà họ đã chọn lựa để có mặt ở cõi đời này. Tuy vậy, thật không may là rất nhiều người trong số họ lại bị quyến rũ bởi những hấp lực mang nặng tính đời trần (hỉ nộ ái ố, yêu yêu hận hận…) để rồi xa lìa mục đích cao cả của mình. Nhưng dòng thủy triều đang thay đổi và hy vọng ngày càng sẽ có thêm nhiều Số 11 nhận ra giá trị thật của mình để quay trở về với những lý tưởng mà họ đã nhận lãnh.
+
+THỂ HIỆN TỐT NHẤT:
+Yêu những gì tinh tế, vẻ đẹp và giá trị văn hóa của đời sống, những người Số 11 dễ thỏa lòng trước những môi trường như vậy bởi nó giải phóng họ được tự do bày tỏ nét đẹp thiên bẩm của tâm hồn. Đời sống vật chất, với nhiều người trong số họ là quá khắc nghiệt và không thú vị. Nhưng họ học cách cân bằng vật chất với những lý tưởng mà họ tìm kiếm và nhận ra rằng những giá trị tinh thần cao quý nhất sẽ chẳng có mấy giá trị, trừ phi chúng có thể mang đến những điều đẹp đẽ làm cải thiện cuộc sống này. Chẳng có biểu đạt nào đẹp đẽ hơn việc dốc mình phụng sự cho cuộc sống, theo khả năng của mỗi người.
+
+NHỮNG ĐẶC ĐIỂM NỔI BẬT:
+Có những sự khác biệt cực kỳ to lớn giữa cách sống của những người Số 11 nào biết sống tích cực và vận dụng được sức mạnh tâm linh vượt trội của họ vào giúp ích cuộc sống, và những người Số 11 đầy tiêu cực với đời sống có vẻ đầy khó khăn và nhạt nhòa. Khi theo đuổi các vấn đề về tinh thần/tâm linh, những người Số 11 thường có một mức độ cảm nhận giá trị đạo đức cao, một khả năng trực giác cực kỳ nhạy bén, một động lực thôi thúc rất rõ ràng. Khi sống trong môi trường bình thường họ thường tỏ ra những người nhạy cảm, cực kỳ chân thật, có thể tin cậy, công tâm, với một tình cảm sâu đậm dành cho gia đình và bạn bè và một tình yêu cuộc sống chân thành.
+
+NHỮNG KHUYNH HƯỚNG TIÊU CỰC CẦN KHẮC PHỤC:
+Khi đời sống vật chất ngày càng phát triển và nhiều ‘hoa thơm cỏ lạ’ bày ra dọc đường, khả năng người ta bị chia trí, bị cám dỗ và từ bỏ trách nhiệm sống thanh thuần vì những giá trị đạo đức cao cũng dễ xảy ra. Cuộc sống lẽ ra đơn giản, hài hòa hơn nhiều người cảm thấy nhiều. Nhưng những sự phức tạp hoặc thậm chí những đau khổ mà con người ta nhận gánh là do họ bị nhầm lẫn và bước vào, từ đó đi xa ra khỏi con đường chính mà họ nên đi. Khi điều này xảy ra, họ thường cảm thấy cay đắng và hằn học, rồi trở nên thờ ơ lạnh nhạt với những người khác và trong nơi làm việc. Khi những điều này xảy ra với những người Số 11, họ trở nên lạc lối và hờ hững, tìm kiếm ít nhiều sự khuây khỏa trong thế giới vật chất mà họ đang bị dẫn dụ vào. Họ phải giữ ý thức và sự tỉnh thức cao độ để giữ được họ không bị lạc ra khỏi con đường chính mà họ cần đi, bởi nó cũng không quá khó miễn là họ chịu lưu tâm đến trực giác cực kỳ bén nhạy của họ.
+
+NHỮNG ĐỀ XUẤT PHÁT TRIỂN:
+Đối với người Số 11, các lĩnh vực tinh thần không thể bị trộn lẫn với các giá trị thương mại. họ cần chọn lựa những nghề nghiệp có thể tạo điều kiện cho họ phát triển tâm thức và tạo chất liệu cho những sự nhạy cảm đáng quý của họ phát triển. Cùng lúc đó, với sự hào hiệp và nhạy cảm tự nhiên với những yêu cầu từ người khác, người Số 11 thường cần tiền hơn những người bình thường khác (^^) Họ cần phải học không chỉ những cách thức thực tế hơn đê diễn đạt những giá trị tinh thần hay tâm linh của mình, mà còn phải học cách lắng nghe trực giác (vốn rất trung thực, sáng suốt) hơn là bị thúc đẩy bởi những thèm muốn đơn thuần (ví dụ như thèm muốn được ghi nhận, được tưởng thưởng, được trả ơn…) Bên cạnh đó, cũng cần thực tập thêm các đức tính phân biệt rõ ràng nên – không nên làm, hài hòa sống, và can trường sống. Khi gặp hoạn nạn, họ hay từ chối sự giúp đỡ, nhưng phải học cách chấp nhận nhiều hơn và phải học cách nhìn ra những ích lợi có thể thu được từ sự giúp đỡ lẫn nhau đầy thực tế như vậy.
+
+NGHỀ NGHIỆP HỢP NHẤT:
+Những nghề nghiệp mà Số 11 thường thấy bao gồm nhà giáo dục, nhà hoạt động xã hội, các thủ lĩnh tôn giáo và huấn luyện viên phát triển cá nhân. Hoặc họ cũng có thể là giáo viên các bộ môn văn hóa, biểu diễn chuyên nghiệp. Khả năng trực giác cũng có thể đưa họ đến vai trò các nhà thiết kế hay phát minh tài ba.
+
+TÓM LƯỢC:
+Người Số 11 là những người nhạy cảm, đầy cảm xúc và đầy quan tâm người khác. Họ yêu thích những gì tinh tế, vẻ đẹp và mọi điều về chiều sâu của những giá trị văn hóa, và vô cùng thật thà và giàu tình cảm, thường tránh đời sống kinh doanh quá mệt nhọc, cũng không phải là những người quản lý tiền bạc giỏi`;
