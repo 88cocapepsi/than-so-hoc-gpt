@@ -1,5 +1,32 @@
 export const LIFE_PATH_7 = `Con Số Chủ Đạo 7
 
-Dưới ảnh hưởng của Số 7...
-(👉 full nội dung số 7)
-`;
+Dưới ảnh hưởng của Số 7 trong vai trò Con số chủ đạo, người mang số này sẽ triệt để trải nghiệm các bài học đời, cả thông qua những thử thách hy sinh hoặc thông qua tiến trình dạy người hoặc chia sẻ với người. Cả hai phương diện học hỏi này đều thể hiện ở khía cạnh trải nghiệm thể chất, do số 7 nằm ở điểm giao nhau giữa hai Mũi tên: Mũi tên Thực tế và Mũi tên Hoạt động .
+
+Những người có số ngày sinh cộng lại thành tổng 16, 25, 34, 43 sẽ có Con số chủ đạo là số 7.
+
+MỤC ĐÍCH SỐNG:
+Có vẻ như rằng những ai sinh ra dưới Con số chủ đạo là số 7 chắc chắn sẽ được ‘rèn giũa’ để qua vòng đời này sẽ tiến lên thêm được một bước dài về phía trước. Đặc điểm nổi bật của Số 7 là khả năng vô hạn được học hỏi thông qua những điều đích thân họ trải nghiệm, qua đó lĩnh hội đựợc những giá trị tốt đẹp và sau đó có thể đem ra chỉ dạy hoặc chia sẻ kinh nghiệm lại cho nhiều người khác. Những trải nghiệm thực tế này còn mang đến cho họ những triết lý sống sâu sắc, ghi khắc dài lâu.
+
+THỂ HIỆN TỐT NHẤT:
+Một trong những đặc điểm độc đáo ở những người Số 7 là họ được học hỏi theo cách riêng của họ. Họ chỉ chịu tiếp nhận một mức độ tối thiểu các chỉ dẫn từ người khác, bởi họ khát khao được ‘học’ bằng cách đem bản thân mình ra trải nghiệm. Chính vì điều này, những người Số 7 sẽ thường hay chịu ‘trả giá’ ở ít nhất là một trong ba khía cạnh của cuộc sống: sức khỏe, tình yêu, tiền tài. Để rồi thông qua những bài học này, họ trở thành những người có vốn sống và trải nghiệm sâu sắc để truyền tải lại cho người khác, hay giúp cho đời. Tuy nhiên, những người này sẽ cảm thấy khó sống theo quy củ mà người khác đưa ra, trong khi họ lại thường hay thích áp quy củ của họ lên cho người khác.
+
+NHỮNG ĐẶC ĐIỂM NỔI BẬT:
+Những người này nhìn chung thuộc nhóm những người năng động nhất trong cuộc sống. Mặc dù có thể không ý thức được điều này, nhưng người Số 7 thường có khát khao được tự mình đi qua những trải nghiệm, và những trải nghiệm này sẽ trở nên những kinh nghiệm nhớ đời, bởi (thật không may) phần lớn những trải nghiệm đó sẽ đưa tới những mất mát tổn thất.
+
+Đường đời của không ít người Số 7 thoạt nhìn có vẻ khá buồn, đặc biệt là khi họ chưa nhận ra những mất mát trở ngại trên đường đời mà họ đang phải trải qua rốt cục là những bài học đời mà họ phải học cho trôi, mà nếu không chịu nhìn ra những kinh nghiệm trước là những bài học, cuộc đời sẽ tái đi tái lại những vấn đề tương tự như vậy, với mức độ tổn thất mất mát ngày càng trầm trọng hơn… cho đến khi nào họ chịu nhìn ra, và chịu ‘học’ kinh nghiệm từ bài này, thì thử thách đó mới dừng lại. Tuy vậy, thông qua việc tổn thất sức khỏe, tình yêu hay tiền tài này, người Số 7 dần dà sẽ ngấm được một loại thấu hiểu triết lý sống một cách sâu xa, và chính sự thấu hiểu quý giá này sẽ giúp họ tránh được những bài học nặng nề hơn khi ý thức của họ ngày càng phát triển.
+
+Những người Số 7 có một loại can trường đặc biệt làm cho họ luôn có vẻ rất tự tin mà, chính sự tự tin này giúp họ giải quyết được những bài học cuộc đời một cách kiên cường hơn mắt người ngoài nhìn thấy. Họ hiểu rằng bất cứ điều gì xảy ra phải có một mục đích nào đó, không vô duyên vô cớ xảy ra được.
+
+NHỮNG KHUYNH HƯỚNG TIÊU CỰC CẦN KHẮC PHỤC:
+Do kiểu gì cũng phải trải qua những ‘bài học đời’, trong khi khuynh hướng lại không muốn nhận những lời chỉ dạy hay khuyên nhủ từ người khác, những người Số 7 thường có khuynh hướng rất nổi loạn. Khi từ chối nhận lời khuyên, họ dễ rơi vào khả năng chỉ thích dạy người chứ không thích bị/được người dạy. Ai thấy mình nằm trong khuynh hướng này sẽ phải trả giá nhiều trong cuộc sống, vì họ không học được những bài học kinh nghiệm thương đau mà người khác từng trải qua và khuyên họ nên tránh. Tuy vậy, họ thường thích người khác nghe theo lời khuyên của mình, và khá bực mình khi cũng y những lời khuyên như vậy mà người khác khuyên lại mình. Khi nào họ trưởng thành hơn và lĩnh hội được nhiều trí tuệ hơn, cuộc sống cá nhân và cả công ăn việc làm của họ sẽ trở nên vui vẻ, tốt đẹp hơn nhiều.
+
+NHỮNG ĐỀ XUẤT PHÁT TRIỂN:
+Những người Số 7 không có tính nhận định chính xác hay khả năng am hiểu kinh doanh, nên họ cần cực kỳ thận trọng trong các vấn đề làm ăn kinh doanh hay đầu tư. Nhưng chỉ cần họ hiểu ra hạn chế của họ và chịu ép mình vào kỷ luật hơn bản tính dễ nổi loạn, ít nghe lời, họ có thể tránh được những làm ăn thất bại. Việc chịu khó nghe lời khuyên và sống có kỷ luật cũng sẽ giúp họ phát triển trực giác, dần dà sẽ làm cho hạnh phúc của họ được cải thiện, mà không chỉ cho chính họ, còn cải thiện tích cực đến những người thân người thương của họ nữa.
+
+Thông thường, người Số 7 học khá chậm, do bằng vô thức họ cần tự mình trải nghiệm mọi điều. Với những gia đình có con mang Số 7, các bố mẹ cần lưu ý đặc biệt đến đặc điểm này và nên cho phép con cứ học từ từ theo tốc độ tiếp thu tự nhiên của nó. Vì thông thường có không ít bố mẹ coi chuyện học hành của con ở trường như một dạng ‘thể hiện mặt mũi gia đình’, chứ không nhận ra giá trị lớn nhất của chuyện con đi học là để đạt được những lợi lạc cho bản thân con. Nghiên cứu trên nhiều trẻ em Số 7 cho thấy việc học và tiếp thu kiến thức của các em vẫn nhanh chóng cho đến khoảng năm lên bảy tuổi, để rồi có thể chu kỳ bảy năm sau đó, tốc độ học tập của các em chậm hơn đáng kể, nhưng vào khoảng muòi bốn tuổi trở đi, tốc độ tiếp thu của các em lại được tăng lên cùng với ý thức tự khép mình vào kỷ luật. Trẻ em Số 7 sau này lớn lên ít nào xuất hiện như những học giả sáng chói.
+
+NGHỀ NGHIỆP HỢP NHẤT:
+Đáng tin cậy, và ngược lại cũng luôn mong mỏi sự tin tưởng từ người khác, những người Số 7 rất thích hợp trong các hoạt động có liên quan đến ngành luật. Người Số 7 cũng rất hay được tìm thấy trong những người làm công việc giảng dạy, như giáo viên, và các lĩnh vực nhân văn, như thành viên các đoàn thể trong các tôn giáo, nhà khoa học, nhà triết học… Bên cạnh đó, họ cũng là những người có khả năng sử dụng các dụng cụ sắc bén, mà biết bao nhiêu nghề nghiệp cần sử dụng dụng cụ sắc bén, từ ngành Y có bác sĩ phẫu thuật, lao động tay chân có nghề thợ mộc, thợ tiện… Cứ theo khả năng của mỗi người tới đâu, áp vào khung đó là sẽ rất phù hợp.
+
+TÓM LƯỢC:
+Người Số 7 cần học hỏi thông qua các trải nghiệm của bản thân, nhưng không thích những kỷ luật bên ngoài áp vào mình. Họ rất quyết đoán, nhân văn, sâu sắc. Cuộc sống của họ thường phát sinh nhiều vấn đề tổn thất hy sinh mà qua đó, họ sẽ học được nhiều bài học đời để họ tinh thấn hơn về tinh thần. Mình hay gọi vui, Con số chủ đạo 7 là số ‘tiền hung hậu kiết’ - nghĩa là "Kết thúc có hậu".`;
