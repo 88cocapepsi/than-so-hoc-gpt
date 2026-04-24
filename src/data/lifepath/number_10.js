@@ -1,5 +1,26 @@
 export const LIFE_PATH_10 = `Con Số Chủ Đạo 10
 
-Rồi, sau khi dạo một vòng...
-(👉 full nội dung số 10)
-`;
+Rồi, sau khi dạo một vòng từ Số 9 chạy dần xuống Số 2, hôm nay chúng ta sẽ lội trở lên, tìm hiểu Con số chủ đạo là Số 10, nhé!
+
+Chưa có con số nào lại có một khả năng dao động lớn và rộng như vậy đối với những con người Số 10. Khi sống tích cực, họ có thể là một người rất quảng giao, được yêu thích trong xã hội, nhưng khi sống tiêu cực, họ có thể là những cá nhân hết sức chao dao, lạc lối, bất an. Họ là những người dễ thích nghi nhất trong tất cả các số. Họ có tiềm năng để nắm bắt những thành công rực rỡ, nhưng họ cũng có thể mòn mỏi trong sự tầm thường. Những người có số tổng cộng từ ngày sinh mang các số 19, 28, 37, 46 sẽ mang Con số chủ đạo 10 này nhé.
+
+MỤC ĐÍCH SỐNG:
+Cuộc sống của những người Số 10 đậm nét hai đặc điểm: khả năng thích nghi và khả năng thay đổi. Độ linh hoạt trời cho có thể hỗ trợ họ tối đa trong việc giúp đỡ người khác điều chỉnh rất nhiều đổi thay trong cuộc sống. Khi đời trở nên phức tạp hơn, việc thích nghi với đời sống bắt buộc cần thiết hơn, chúng ta sẽ thấy người Số 10 có mặt trong rất nhiều phương diện nghề nghiệp hay tình huống. Họ có một lòng can đảm trời cho đưa họ vào những cuộc dấn thân đầy tính tiên phong và những người khác hầu như không bao giờ nghĩ dám thực hiện.
+
+THỂ HIỆN TỐT NHẤT:
+Nếu chúng ta tìm kiếm một người có thể bầu bạn cùng ta tận hưởng những thú vui nhẹ nhàng trong cuộc sống, không ai phù hợp hơn những người Số 10. Họ tỏ ra vui vẻ nhất khi họ được đắm mình trong những trải nghiệm mà coi là ‘phấn khích bùng nổ’ trong cuộc sống. Nhưng khi họ bị áp lực hoặc bị cản trở về tinh thần, họ xuống tinh thần nhanh chóng mà không rõ nguyên nhân. Điều này làm cho họ trở nên tức giận, thường bộc lộ ra ngoài bằng những hồi nóng nảy hay nổi dịch. Một bộ phận người Số 10 sẽ rất thẳng thắn bộc trực, quyết đoán, tinh thần lạc quan vô biên của họ dẫn dắt họ tới chỗ thành công đáng kể trong cuộc sống. Đây là biểu đạt tự nhiên của Số 10, là một sự kết hợp đầy quyền năng của cái tôi (Số 1), thể hiện chiều sâu tinh thần vô hạn của mình thông qua số 0.
+
+NHỮNG ĐẶC ĐIỂM NỔI BẬT:
+Là một số mang tính thực tế, Số 10 tỏa ra một sức mạnh linh động và khả năng thích ứng để tạo được một cá tính rất được yêu thích. Bản tính vui vẻ của họ nhìn chung mang tính lan tỏa, nhưng bởi vì họ không muốn can dự quá sâu vào các vấn đề của người khác, họ sẽ thấy khó hiểu vì sao người ta lại không vui vẻ hay giỏi thích nghi giống họ. Phần lớn người Số 10 ít đào sâu vào cuộc sống, hài lòng với những thú vui bề nổi, đặc biệt là thể thao – hoặc chủ động tham gia hoặc chỉ làm người xem. Ngược lại, một số ít người Số 10 lại rất ý thức về những giá trị tiềm ẩn ở họ, và trở nên đặc biệt thành công trong nghề nghiệp do có khả năng kiên cường vượt qua những khó khăn trở ngại. Nhìn chung, Số 10 vô thức có một vẻ hòa nhã, tự tin vào bản thân, thể hiện qua cá tính và vẻ ngoài trang nhã, cho dù họ ăn mặc thế nào. Họ không mấy thành công trong việc giải quyết các vấn đề về tâm lý của bản thân hay của những người khác, cũng không phải những nhà tư vấn tài ba trong các mối quan hệ bạn bè, thường thích bầu bạn với các thành viên là người cùng phái hơn người khác phái. Họ cũng nhìn chung rất có máu nghệ thuật, với sự nhạy cảm khiến họ có thể trở thành những nghệ sĩ biểu diễn nhạc cụ tài hoa hay các chuyên gia đánh giá có gu trong quần áo hay các vật dụng khác.
+
+NHỮNG KHUYNH HƯỚNG TIÊU CỰC CẦN KHẮC PHỤC:
+Sự tự tin ở những người Số 10 đôi khi có thể dẫn đến sự thái quá, khiến họ muốn áp chế người khác, nhưng họ hay làm điều đó một cách ít khôn ngoan, dẫn đến sự bất hòa căng thẳng. Khuynh hướng này có thể tránh được thông qua ý thức kiểm soát cái tôi, tái nhận diện độ sâu tinh thần trong mỗi người, và tránh lối sống hời hợt. Việc chủ động tham gia các hoạt động đầy tính xây dựng và sáng tạo cũng sẽ tích cực giúp người Số 10 tiếp nhận thêm những quan điểm thấu suốt hơn, đủ để nhận ra rằng nếu ngày nào một cánh cửa đóng sập lại trước mặt ta, ta chỉ cần quay đi và tìm những cánh cửa mở khác. Họ cũng cần tránh tâm trạng lười biếng và tránh né cuộc sống, và họ cũng cần học cách tự khép mình vào kỷ luật để vượt qua cảm giác buồn sầu và không an toàn về cảm xúc.
+
+NHỮNG ĐỀ XUẤT PHÁT TRIỂN:
+Những người Số 10, nếu không tự nhận ra những giá trị của mình sẽ dễ bị chìm khuất trong những quy chuẩn tầm thường. Họ cần nhìn ra tiềm năng của mình để trở nên vượt trội, đó là khả năng linh hoạt và thích nghi cực kỳ mạnh mẽ. Trong suốt vòng đời mình, người Số 10 rất cần các dạng thiền tĩnh tâm để tập trung vào nội tâm và giữ họ kết nối với sức mạnh bên trong. Họ cũng cần vận dụng tính hài hòa trong cuộc sống để phát triển nhận thức về thế giới xung quanh (sự uyên bác), sự hòa hợp trong thái độ, tình cảm và sự kính ngưỡng cuộc sống. Bên cạnh đó, cũng cần học cách phân biệt cái gì quan trọng cái gì không quan trọng , nếu không họ sẽ dễ bị phí thời gian theo đuổi những điều không đáng.
+
+NGHỀ NGHIỆP HỢP NHẤT:
+Người Số 10 sẽ hợp với các dạng ngành nghề thể thao hay biểu diễn chuyên nghiệp, thiết kế và trang trí nội thất, làm việc với vải sợi và thực phẩm. Họ cũng làm nhân viên sales giỏi, chính trị gia, nhà gây quỹ từ thiện, điều hành doanh nghiệp, giám đốc kinh doanh, hoạch định đô thị, kiến trúc sư, chuyên gia địa ốc…
+
+TÓM LƯỢC:
+Người Số 10 rất tự tin, hòa nhã, sáng sủa và vui vẻ, với cảm giác tinh nhạy đặc biệt và khả năng bán hàng xuất sắc.`;
