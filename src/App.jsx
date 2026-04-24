@@ -1,10 +1,11 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { SUCCESS_DATA } from "./data/data_success";
 import { GROWTH_DATA } from "./data/data_growth";
 import { HAPPINESS_DATA } from "./data/data_happiness";
 import { KARMA_DATA } from "./data/data_karma";
 import { DEBT_DATA } from "./data/data_debt";
 import { LIFE_PATH_DATA } from "./data/lifepath";
+import { arrowData } from "./data/data_arrows";
 
 const STORAGE_KEY = "than_so_hoc_gpt_pro_messages_v12";
 const SETTINGS_KEY = "than_so_hoc_gpt_pro_settings_v12";
@@ -46,15 +47,63 @@ const PERSONAL_YEAR_DATA = {
   9: "Năm cá nhân 9: hoàn tất chu kỳ cũ, buông bỏ và chuẩn bị cho vòng mới.",
 };
 
-const ARROW_DATA = {
-  "1-2-3": { name: "Mũi tên kế hoạch", emptyName: "Mũi tên trống kế hoạch", strong: "Bạn có mũi tên kế hoạch 1-2-3. Đây là dấu hiệu của khả năng sắp xếp, tổ chức, tư duy có trình tự và biết chuẩn bị trước khi hành động.", empty: "Bạn có mũi tên trống 1-2-3. Bài học nằm ở khả năng lên kế hoạch, giữ trật tự suy nghĩ và hành động có định hướng." },
-  "1-5-9": { name: "Mũi tên quyết tâm", emptyName: "Mũi tên trống trì hoãn", strong: "Bạn có mũi tên quyết tâm 1-5-9. Đây là dấu hiệu của sự kiên trì, nhẫn nại và khả năng theo đuổi điều mình đã chọn.", empty: "Bạn có mũi tên trống 1-5-9. Bài học nằm ở sự quyết tâm, tính dứt khoát và khả năng vượt qua thói quen trì hoãn." },
-  "3-5-7": { name: "Mũi tên nhạy bén", emptyName: "Mũi tên trống hoài nghi", strong: "Bạn có mũi tên nhạy bén 3-5-7. Đây là dấu hiệu của trực giác, cảm nhận tinh tế và xu hướng tự trải nghiệm để rút ra bài học.", empty: "Bạn có mũi tên trống 3-5-7. Bài học nằm ở niềm tin, sự mở lòng và giảm xu hướng hoài nghi quá mức." },
-  "3-6-9": { name: "Mũi tên trí tuệ", emptyName: "Mũi tên trống trí nhớ ngắn hạn", strong: "Bạn có mũi tên trí tuệ 3-6-9. Đây là lợi thế về tư duy, ghi nhớ, học hỏi và xử lý tri thức.", empty: "Bạn có mũi tên trống 3-6-9. Bài học nằm ở phát triển trí nhớ, sự tập trung và chiều sâu tư duy." },
-  "2-5-8": { name: "Mũi tên cân bằng cảm xúc", emptyName: "Mũi tên trống nhạy cảm", strong: "Bạn có mũi tên cân bằng cảm xúc 2-5-8. Đây là dấu hiệu của khả năng điều tiết cảm xúc và cảm nhận tinh thần tốt.", empty: "Bạn có mũi tên trống 2-5-8. Bài học nằm ở việc quản trị sự nhạy cảm, giữ ranh giới và ổn định cảm xúc." },
-  "1-4-7": { name: "Mũi tên thực tế", emptyName: "Mũi tên trống hỗn độn", strong: "Bạn có mũi tên thực tế 1-4-7. Đây là dấu hiệu của khả năng làm việc thực tế, tháo vát và biết đưa ý tưởng vào hành động.", empty: "Bạn có mũi tên trống 1-4-7. Bài học nằm ở tổ chức đời sống, chăm sóc nền tảng và bớt hỗn độn trong hành động." },
-  "4-5-6": { name: "Mũi tên ý chí", emptyName: "Mũi tên trống uất hận / thiếu ý chí", strong: "Bạn có mũi tên ý chí 4-5-6. Đây là dấu hiệu của nội lực, sự sáng tạo và sức bật khi gặp trở ngại.", empty: "Bạn có mũi tên trống 4-5-6. Bài học nằm ở ý chí, tính tự lập và khả năng không ỷ lại vào người khác." },
-  "7-8-9": { name: "Mũi tên hoạt động", emptyName: "Mũi tên trống thụ động", strong: "Bạn có mũi tên hoạt động 7-8-9. Đây là dấu hiệu của nguồn năng lượng mạnh và xu hướng thích hành động.", empty: "Bạn có mũi tên trống 7-8-9. Bài học nằm ở trải nghiệm thực tế, vận động và chủ động bước vào cuộc sống." },
+const ARROW_META = {
+  "1-2-3": {
+    id: "123",
+    icon: "🧠",
+    title: "Mũi tên 1–2–3",
+    subtitle: "Trí nhớ – Tư duy – Khả năng tổ chức",
+    emptyName: "Mũi tên trống 1–2–3",
+  },
+  "4-5-6": {
+    id: "456",
+    icon: "🏗️",
+    title: "Mũi tên 4–5–6",
+    subtitle: "Thực tế – Hành động – Vận hành đời sống",
+    emptyName: "Mũi tên trống 4–5–6",
+  },
+  "7-8-9": {
+    id: "789",
+    icon: "⚡",
+    title: "Mũi tên 7–8–9",
+    subtitle: "Hành động – Trải nghiệm – Năng lượng sống",
+    emptyName: "Mũi tên trống 7–8–9",
+  },
+  "1-4-7": {
+    id: "147",
+    icon: "🔥",
+    title: "Mũi tên 1–4–7",
+    subtitle: "Ý chí – Nội lực – Sức bền",
+    emptyName: "Mũi tên trống 1–4–7",
+  },
+  "2-5-8": {
+    id: "258",
+    icon: "⚖️",
+    title: "Mũi tên 2–5–8",
+    subtitle: "Cân bằng cảm xúc – Nội tâm ổn định",
+    emptyName: "Mũi tên trống 2–5–8",
+  },
+  "3-6-9": {
+    id: "369",
+    icon: "📚",
+    title: "Mũi tên 3–6–9",
+    subtitle: "Trí tuệ – Nhận thức – Tầm nhìn",
+    emptyName: "Mũi tên trống 3–6–9",
+  },
+  "1-5-9": {
+    id: "159",
+    icon: "🚀",
+    title: "Mũi tên 1–5–9",
+    subtitle: "Quyết tâm – Động lực – Sức bật",
+    emptyName: "Mũi tên trống 1–5–9",
+  },
+  "3-5-7": {
+    id: "357",
+    icon: "🔮",
+    title: "Mũi tên 3–5–7",
+    subtitle: "Trực giác – Tâm linh – Chiều sâu",
+    emptyName: "Mũi tên trống 3–5–7",
+  },
 };
 
 const ADVANCED_OPTIONS = [
@@ -155,31 +204,98 @@ function calcLifePath(date) {
   const raw = `${date.day}${date.month}${date.year}`.split("").reduce((sum, digit) => sum + Number(digit), 0);
   return reduceNumber(raw, true);
 }
-function calcAttitude(date) { return reduceNumber(date.day + date.month, true); }
-function calcSoulUrge(name) { const { vowelNums } = splitNameNumbers(name); return reduceNumber(vowelNums.reduce((a, b) => a + b, 0), true); }
-function calcPersonality(name) { const { consonantNums } = splitNameNumbers(name); return reduceNumber(consonantNums.reduce((a, b) => a + b, 0), true); }
-function calcExpression(name) { const { allNums } = splitNameNumbers(name); return reduceNumber(allNums.reduce((a, b) => a + b, 0), true); }
-function calcPersonalYear(date, targetYear) { const universalYear = String(targetYear).split("").reduce((a, b) => a + Number(b), 0); return reduceNumber(date.day + date.month + universalYear, false); }
+
+function calcAttitude(date) {
+  return reduceNumber(date.day + date.month, true);
+}
+
+function calcSoulUrge(name) {
+  const { vowelNums } = splitNameNumbers(name);
+  return reduceNumber(vowelNums.reduce((a, b) => a + b, 0), true);
+}
+
+function calcPersonality(name) {
+  const { consonantNums } = splitNameNumbers(name);
+  return reduceNumber(consonantNums.reduce((a, b) => a + b, 0), true);
+}
+
+function calcExpression(name) {
+  const { allNums } = splitNameNumbers(name);
+  return reduceNumber(allNums.reduce((a, b) => a + b, 0), true);
+}
+
+function calcPersonalYear(date, targetYear) {
+  const universalYear = String(targetYear).split("").reduce((a, b) => a + Number(b), 0);
+  return reduceNumber(date.day + date.month + universalYear, false);
+}
 
 function getBirthDigitCounts(date) {
   const counts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0 };
-  `${String(date.day).padStart(2, "0")}${String(date.month).padStart(2, "0")}${date.year}`.replace(/0/g, "").split("").forEach((d) => {
-    const n = Number(d);
-    if (counts[n] !== undefined) counts[n] += 1;
-  });
+  `${String(date.day).padStart(2, "0")}${String(date.month).padStart(2, "0")}${date.year}`
+    .replace(/0/g, "")
+    .split("")
+    .forEach((d) => {
+      const n = Number(d);
+      if (counts[n] !== undefined) counts[n] += 1;
+    });
   return counts;
 }
 
+function getArrowDetail(meta) {
+  const data = arrowData?.[meta.id] || {};
+  return {
+    ...meta,
+    dataTitle: data.title || meta.title,
+    dataSubtitle: data.subtitle || meta.subtitle,
+    dataContent:
+      data.content ||
+      `Chưa có nội dung chi tiết cho ${meta.title}. Anh kiểm tra lại file src/data/data_arrows.js và key "${meta.id}".`,
+  };
+}
+
 function analyzeArrows(counts) {
-  const patterns = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 4, 7], [2, 5, 8], [3, 6, 9], [1, 5, 9], [3, 5, 7]];
-  const strong = [], empty = [];
+  const patterns = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+    [1, 4, 7],
+    [2, 5, 8],
+    [3, 6, 9],
+    [1, 5, 9],
+    [3, 5, 7],
+  ];
+
+  const strong = [];
+  const empty = [];
+
   patterns.forEach((arr) => {
     const key = arr.join("-");
-    const data = ARROW_DATA[key];
-    if (!data) return;
-    if (arr.every((n) => counts[n] > 0)) strong.push({ key, ...data });
-    if (arr.every((n) => counts[n] === 0)) empty.push({ key, ...data });
+    const meta = ARROW_META[key];
+    if (!meta) return;
+
+    const detail = getArrowDetail(meta);
+    const hasAll = arr.every((n) => counts[n] > 0);
+    const missingAll = arr.every((n) => counts[n] === 0);
+
+    if (hasAll) {
+      strong.push({
+        key,
+        status: "strong",
+        statusText: "Mũi tên cá tính nổi bật",
+        ...detail,
+      });
+    }
+
+    if (missingAll) {
+      empty.push({
+        key,
+        status: "empty",
+        statusText: "Mũi tên trống cần rèn",
+        ...detail,
+      });
+    }
   });
+
   return { strong, empty };
 }
 
@@ -200,9 +316,20 @@ function calcPinnacles(date) {
   ];
 }
 
-function calcMaturity(lifePath, expression) { return reduceNumber(reduceNumber(lifePath, false) + reduceNumber(expression, false), false); }
-function calcBridge(a, b) { return Math.abs(reduceNumber(a, false) - reduceNumber(b, false)); }
-function calcKarmicLessons(counts) { return Object.entries(counts).filter(([, count]) => count === 0).map(([n]) => Number(n)); }
+function calcMaturity(lifePath, expression) {
+  return reduceNumber(reduceNumber(lifePath, false) + reduceNumber(expression, false), false);
+}
+
+function calcBridge(a, b) {
+  return Math.abs(reduceNumber(a, false) - reduceNumber(b, false));
+}
+
+function calcKarmicLessons(counts) {
+  return Object.entries(counts)
+    .filter(([, count]) => count === 0)
+    .map(([n]) => Number(n));
+}
+
 function calcKarmicDebts(date) {
   const rawSum = `${date.day}${date.month}${date.year}`.split("").reduce((sum, digit) => sum + Number(digit), 0);
   const debts = [];
@@ -210,14 +337,24 @@ function calcKarmicDebts(date) {
   if ([13, 14, 16, 19].includes(rawSum)) debts.push(rawSum);
   return [...new Set(debts)];
 }
+
 function calcBalance(name) {
   const parts = normalizeVietnamese(name).toUpperCase().replace(/[^A-Z\s]/g, "").split(/\s+/).filter(Boolean);
   const total = parts.reduce((sum, part) => sum + charToNumber(part[0]), 0);
   return reduceNumber(total, false) || 1;
 }
-function debtKey(n) { return `${n}/${reduceNumber(n, false)}`; }
-function fallbackData(title, number) { return `${title}: ${number}\n\nChưa có nội dung data cho mục này. Anh kiểm tra lại file data hoặc key số tương ứng.`; }
-function getLifePathText(lifePath) { return LIFE_PATH_DATA?.[lifePath] || LIFE_PATH_DATA?.[String(lifePath)] || LIFE_PATH_FALLBACK[lifePath] || `Chưa có nội dung số chủ đạo ${lifePath}.`; }
+
+function debtKey(n) {
+  return `${n}/${reduceNumber(n, false)}`;
+}
+
+function fallbackData(title, number) {
+  return `${title}: ${number}\n\nChưa có nội dung data cho mục này. Anh kiểm tra lại file data hoặc key số tương ứng.`;
+}
+
+function getLifePathText(lifePath) {
+  return LIFE_PATH_DATA?.[lifePath] || LIFE_PATH_DATA?.[String(lifePath)] || LIFE_PATH_FALLBACK[lifePath] || `Chưa có nội dung số chủ đạo ${lifePath}.`;
+}
 
 function buildProfile(name, date, yearView) {
   const lifePath = calcLifePath(date);
@@ -235,11 +372,34 @@ function buildProfile(name, date, yearView) {
   const karmicLessons = calcKarmicLessons(counts);
   const karmicDebts = calcKarmicDebts(date);
   const balance = calcBalance(name);
-  return { name, date, yearView, lifePath, attitude, soulUrge, personality, expression, personalYear, counts, arrows, pinnacles, maturity, successBridge, happinessBridge, karmicLessons, karmicDebts, balance };
+
+  return {
+    name,
+    date,
+    yearView,
+    lifePath,
+    attitude,
+    soulUrge,
+    personality,
+    expression,
+    personalYear,
+    counts,
+    arrows,
+    pinnacles,
+    maturity,
+    successBridge,
+    happinessBridge,
+    karmicLessons,
+    karmicDebts,
+    balance,
+  };
 }
 
 function buildMainReply(profile) {
-  const chartRows = [[3, 6, 9], [2, 5, 8], [1, 4, 7]].map((row) => row.map((n) => `[${profile.counts[n] ? String(n).repeat(profile.counts[n]) : "-"}]`).join(" ")).join("\n");
+  const chartRows = [[3, 6, 9], [2, 5, 8], [1, 4, 7]]
+    .map((row) => row.map((n) => `[${profile.counts[n] ? String(n).repeat(profile.counts[n]) : "-"}]`).join(" "))
+    .join("\n");
+
   return `HỒ SƠ THẦN SỐ HỌC
 
 Họ tên: ${profile.name}
@@ -265,10 +425,10 @@ Số biểu đạt cho thấy cách bạn dùng năng lực, tên gọi và kh�
 ${chartRows}
 
 7) Mũi tên cá tính
-${profile.arrows.strong.length ? profile.arrows.strong.map((x) => `- ${x.name} (${x.key})`).join("\n") : "- Không có mũi tên cá tính nổi bật theo 8 trục cơ bản."}
+${profile.arrows.strong.length ? profile.arrows.strong.map((x) => `- ${x.title} (${x.subtitle})`).join("\n") : "- Không có mũi tên cá tính nổi bật theo 8 trục cơ bản."}
 
 8) Mũi tên trống
-${profile.arrows.empty.length ? profile.arrows.empty.map((x) => `- ${x.emptyName} (${x.key})`).join("\n") : "- Không có mũi tên trống nổi bật theo 8 trục cơ bản."}
+${profile.arrows.empty.length ? profile.arrows.empty.map((x) => `- ${x.emptyName} (${x.subtitle})`).join("\n") : "- Không có mũi tên trống nổi bật theo 8 trục cơ bản."}
 
 9) Kim tự tháp / 4 đỉnh cao
 ${profile.pinnacles.map((p) => {
@@ -288,18 +448,35 @@ ${PERSONAL_YEAR_DATA[profile.personalYear]}
 - Nợ nghiệp: ${profile.karmicDebts.length ? profile.karmicDebts.map(debtKey).join(", ") : "Không nổi bật"}
 - Con số cân bằng: ${profile.balance}
 
-Bên dưới có mục “Phân tích chuyên sâu cá nhân hoá”. Chỉ cần bấm từng mục để xem full nội dung từ data đã update.`;
+Bên dưới có mục “Phân tích chuyên sâu cá nhân hoá”. Bấm “Mũi tên cá tính” hoặc “Mũi tên trống” để xem full nội dung từ file data_arrows.js.`;
+}
+
+function formatArrowDetail(item, index, typeLabel) {
+  return `${index + 1}. ${item.dataTitle}
+(${item.dataSubtitle})
+
+Trạng thái: ${typeLabel}
+
+${String(item.dataContent || "").trim()}`;
 }
 
 function getAdvancedContent(optionId, profile) {
   switch (optionId) {
-    case "lifepath-full": return getLifePathText(profile.lifePath);
+    case "lifepath-full":
+      return getLifePathText(profile.lifePath);
+
     case "arrows-strong":
       if (!profile.arrows.strong.length) return "Không có mũi tên cá tính nổi bật theo 8 trục cơ bản.";
-      return profile.arrows.strong.map((x, i) => `${i + 1}. ${x.name} (${x.key})\n\n${x.strong}`).join("\n\n━━━━━━━━━━━━━━━━━━━━\n\n");
+      return profile.arrows.strong
+        .map((x, i) => formatArrowDetail(x, i, "Mũi tên cá tính nổi bật"))
+        .join("\n\n━━━━━━━━━━━━━━━━━━━━\n\n");
+
     case "arrows-empty":
       if (!profile.arrows.empty.length) return "Không có mũi tên trống nổi bật theo 8 trục cơ bản.";
-      return profile.arrows.empty.map((x, i) => `${i + 1}. ${x.emptyName} (${x.key})\n\n${x.empty}`).join("\n\n━━━━━━━━━━━━━━━━━━━━\n\n");
+      return profile.arrows.empty
+        .map((x, i) => formatArrowDetail(x, i, "Mũi tên trống / vùng thiếu cần rèn"))
+        .join("\n\n━━━━━━━━━━━━━━━━━━━━\n\n");
+
     case "pinnacles":
       return `DIỄN GIẢI 4 ĐỈNH CAO CUỘC ĐỜI
 
@@ -312,76 +489,291 @@ Năm: ${startYear}${endYear == null ? "+" : ` - ${endYear}`}`;
 }).join("\n\n")}
 
 Lưu ý: phần này đang hiển thị theo logic tính toán. Nếu anh có file data riêng cho luận giải từng số đỉnh cao, có thể tách thêm data_pinnacles.js.`;
-    case "success": return SUCCESS_DATA[profile.successBridge] || fallbackData("Cầu nối thành công", profile.successBridge);
-    case "growth": return GROWTH_DATA[profile.maturity] || fallbackData("Con số trưởng thành", profile.maturity);
-    case "happiness": return HAPPINESS_DATA[profile.happinessBridge] || fallbackData("Cầu nối hạnh phúc", profile.happinessBridge);
+
+    case "success":
+      return SUCCESS_DATA[profile.successBridge] || fallbackData("Cầu nối thành công", profile.successBridge);
+
+    case "growth":
+      return GROWTH_DATA[profile.maturity] || fallbackData("Con số trưởng thành", profile.maturity);
+
+    case "happiness":
+      return HAPPINESS_DATA[profile.happinessBridge] || fallbackData("Cầu nối hạnh phúc", profile.happinessBridge);
+
     case "karma":
       if (!profile.karmicLessons.length) return "Không có bài học nghiệp nổi bật theo cách tính thiếu số 1–9.";
-      return profile.karmicLessons.map((n, i) => `${i + 1}. ${KARMA_DATA[n] || fallbackData("Bài học nghiệp", n)}`).join("\n\n━━━━━━━━━━━━━━━━━━━━\n\n");
+      return profile.karmicLessons
+        .map((n, i) => `${i + 1}. ${KARMA_DATA[n] || fallbackData("Bài học nghiệp", n)}`)
+        .join("\n\n━━━━━━━━━━━━━━━━━━━━\n\n");
+
     case "debt":
       if (!profile.karmicDebts.length) return "Không có nợ nghiệp nổi bật theo nhóm 13/4, 14/5, 16/7, 19/1.";
-      return profile.karmicDebts.map((n, i) => {
-        const key = debtKey(n);
-        return `${i + 1}. ${DEBT_DATA[key] || DEBT_DATA[n] || fallbackData("Nợ nghiệp", key)}`;
-      }).join("\n\n━━━━━━━━━━━━━━━━━━━━\n\n");
-    case "balance": return GROWTH_DATA?.balance?.[profile.balance] || GROWTH_DATA?.[profile.balance] || fallbackData("Con số cân bằng", profile.balance);
-    default: return "Chưa nhận diện được mục này.";
+      return profile.karmicDebts
+        .map((n, i) => {
+          const key = debtKey(n);
+          return `${i + 1}. ${DEBT_DATA[key] || DEBT_DATA[n] || fallbackData("Nợ nghiệp", key)}`;
+        })
+        .join("\n\n━━━━━━━━━━━━━━━━━━━━\n\n");
+
+    case "balance":
+      return GROWTH_DATA?.balance?.[profile.balance] || GROWTH_DATA?.[profile.balance] || fallbackData("Con số cân bằng", profile.balance);
+
+    default:
+      return "Chưa nhận diện được mục này.";
   }
 }
 
-function formatTime(iso) { return new Date(iso).toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" }); }
+function formatTime(iso) {
+  return new Date(iso).toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" });
+}
 
 function StatCard({ label, value, tone = "normal", theme }) {
-  return <div className="ts-card" style={{ background: tone === "accent" ? theme.accentSoft : theme.panel, borderColor: theme.border }}><div className="ts-card-label" style={{ color: theme.muted }}>{label}</div><div className="ts-card-value" style={{ color: theme.text }}>{value}</div></div>;
+  return (
+    <div className="ts-card" style={{ background: tone === "accent" ? theme.accentSoft : theme.panel, borderColor: theme.border }}>
+      <div className="ts-card-label" style={{ color: theme.muted }}>{label}</div>
+      <div className="ts-card-value" style={{ color: theme.text }}>{value}</div>
+    </div>
+  );
 }
 
 function BirthChart({ profile, theme }) {
   const rows = [[3, 6, 9], [2, 5, 8], [1, 4, 7]];
-  return <div className="pro-panel" style={{ background: theme.card, borderColor: theme.border }}><div className="panel-head"><div><h3 style={{ color: theme.text }}>Biểu đồ ngày sinh</h3><p style={{ color: theme.muted }}>3-6-9 / 2-5-8 / 1-4-7</p></div><span className="panel-badge" style={{ background: theme.accentSoft, color: theme.text }}>Personal</span></div><div className="birth-grid">{rows.flat().map((n) => <div key={n} className="birth-cell" style={{ background: theme.panel, borderColor: theme.border }}><span style={{ color: theme.muted }}>{n}</span><strong style={{ color: theme.text }}>{profile.counts[n] ? String(n).repeat(profile.counts[n]) : "—"}</strong></div>)}</div></div>;
+  return (
+    <div className="pro-panel" style={{ background: theme.card, borderColor: theme.border }}>
+      <div className="panel-head">
+        <div>
+          <h3 style={{ color: theme.text }}>Biểu đồ ngày sinh</h3>
+          <p style={{ color: theme.muted }}>3-6-9 / 2-5-8 / 1-4-7</p>
+        </div>
+        <span className="panel-badge" style={{ background: theme.accentSoft, color: theme.text }}>Personal</span>
+      </div>
+      <div className="birth-grid">
+        {rows.flat().map((n) => (
+          <div key={n} className="birth-cell" style={{ background: theme.panel, borderColor: theme.border }}>
+            <span style={{ color: theme.muted }}>{n}</span>
+            <strong style={{ color: theme.text }}>{profile.counts[n] ? String(n).repeat(profile.counts[n]) : "—"}</strong>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 function ArrowPanel({ profile, theme }) {
   const patterns = ["1-2-3", "4-5-6", "7-8-9", "1-4-7", "2-5-8", "3-6-9", "1-5-9", "3-5-7"];
   const strong = new Set(profile.arrows.strong.map((x) => x.key));
   const empty = new Set(profile.arrows.empty.map((x) => x.key));
-  return <div className="pro-panel" style={{ background: theme.card, borderColor: theme.border }}><div className="panel-head"><div><h3 style={{ color: theme.text }}>Mũi tên</h3><p style={{ color: theme.muted }}>Mạnh / Trống / Trung tính</p></div></div><div className="arrow-grid">{patterns.map((key) => { const isStrong = strong.has(key); const isEmpty = empty.has(key); return <div key={key} className="arrow-chip" style={{ background: isStrong ? theme.accentSoft : isEmpty ? theme.dangerSoft : theme.panel, borderColor: isStrong ? theme.accent : isEmpty ? theme.danger : theme.border, color: theme.text }}><strong>{key}</strong><span style={{ color: theme.muted }}>{isStrong ? "Mạnh" : isEmpty ? "Trống" : "Trung tính"}</span></div>; })}</div></div>;
+
+  return (
+    <div className="pro-panel" style={{ background: theme.card, borderColor: theme.border }}>
+      <div className="panel-head">
+        <div>
+          <h3 style={{ color: theme.text }}>Mũi tên</h3>
+          <p style={{ color: theme.muted }}>Mạnh / Trống / Trung tính</p>
+        </div>
+      </div>
+      <div className="arrow-grid">
+        {patterns.map((key) => {
+          const isStrong = strong.has(key);
+          const isEmpty = empty.has(key);
+          const meta = ARROW_META[key];
+
+          return (
+            <div
+              key={key}
+              className="arrow-chip"
+              style={{
+                background: isStrong ? theme.accentSoft : isEmpty ? theme.dangerSoft : theme.panel,
+                borderColor: isStrong ? theme.accent : isEmpty ? theme.danger : theme.border,
+                color: theme.text,
+              }}
+            >
+              <strong>{meta?.title || key}</strong>
+              <span style={{ color: theme.muted }}>{isStrong ? "Mạnh" : isEmpty ? "Trống" : "Trung tính"}</span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
 
 function PyramidPanel({ profile, theme }) {
-  return <div className="pro-panel" style={{ background: theme.card, borderColor: theme.border }}><div className="panel-head"><div><h3 style={{ color: theme.text }}>Kim tự tháp</h3><p style={{ color: theme.muted }}>4 đỉnh cao cuộc đời</p></div></div><div className="pyramid"><div className="p-node top" style={{ background: theme.panel, borderColor: theme.border, color: theme.text }}>{profile.pinnacles[2].number}</div><div className="p-row"><div className="p-node" style={{ background: theme.panel, borderColor: theme.border, color: theme.text }}>{profile.pinnacles[0].number}</div><div className="p-node" style={{ background: theme.panel, borderColor: theme.border, color: theme.text }}>{profile.pinnacles[1].number}</div></div><div className="p-node bottom" style={{ background: theme.accentSoft, borderColor: theme.accent, color: theme.text }}>{profile.pinnacles[3].number}</div></div><div className="timeline">{profile.pinnacles.map((p) => { const startYear = profile.date.year + p.ageStart; const endYear = p.ageEnd == null ? null : profile.date.year + p.ageEnd; return <div key={p.title} className="timeline-item" style={{ borderColor: theme.border }}><b style={{ color: theme.text }}>{p.title}: {p.number}</b><span style={{ color: theme.muted }}>Tuổi {p.ageStart}{p.ageEnd == null ? "+" : `-${p.ageEnd}`} · Năm {startYear}{endYear == null ? "+" : `-${endYear}`}</span></div>; })}</div></div>;
+  return (
+    <div className="pro-panel" style={{ background: theme.card, borderColor: theme.border }}>
+      <div className="panel-head">
+        <div>
+          <h3 style={{ color: theme.text }}>Kim tự tháp</h3>
+          <p style={{ color: theme.muted }}>4 đỉnh cao cuộc đời</p>
+        </div>
+      </div>
+      <div className="pyramid">
+        <div className="p-node top" style={{ background: theme.panel, borderColor: theme.border, color: theme.text }}>{profile.pinnacles[2].number}</div>
+        <div className="p-row">
+          <div className="p-node" style={{ background: theme.panel, borderColor: theme.border, color: theme.text }}>{profile.pinnacles[0].number}</div>
+          <div className="p-node" style={{ background: theme.panel, borderColor: theme.border, color: theme.text }}>{profile.pinnacles[1].number}</div>
+        </div>
+        <div className="p-node bottom" style={{ background: theme.accentSoft, borderColor: theme.accent, color: theme.text }}>{profile.pinnacles[3].number}</div>
+      </div>
+      <div className="timeline">
+        {profile.pinnacles.map((p) => {
+          const startYear = profile.date.year + p.ageStart;
+          const endYear = p.ageEnd == null ? null : profile.date.year + p.ageEnd;
+          return (
+            <div key={p.title} className="timeline-item" style={{ borderColor: theme.border }}>
+              <b style={{ color: theme.text }}>{p.title}: {p.number}</b>
+              <span style={{ color: theme.muted }}>
+                Tuổi {p.ageStart}{p.ageEnd == null ? "+" : `-${p.ageEnd}`} · Năm {startYear}{endYear == null ? "+" : `-${endYear}`}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
 
 function VisualPro({ profile, theme }) {
   if (!profile) return null;
-  return <div className="visual-pro"><div className="metrics-row"><StatCard theme={theme} label="Số chủ đạo" value={profile.lifePath} tone="accent" /><StatCard theme={theme} label="Linh hồn" value={profile.soulUrge} /><StatCard theme={theme} label="Nhân cách" value={profile.personality} /><StatCard theme={theme} label="Sứ mệnh" value={profile.expression} /><StatCard theme={theme} label="Năm cá nhân" value={profile.personalYear} tone="accent" /><StatCard theme={theme} label="Trưởng thành" value={profile.maturity} /></div><div className="panel-grid"><BirthChart profile={profile} theme={theme} /><ArrowPanel profile={profile} theme={theme} /><PyramidPanel profile={profile} theme={theme} /></div></div>;
+  return (
+    <div className="visual-pro">
+      <div className="metrics-row">
+        <StatCard theme={theme} label="Số chủ đạo" value={profile.lifePath} tone="accent" />
+        <StatCard theme={theme} label="Linh hồn" value={profile.soulUrge} />
+        <StatCard theme={theme} label="Nhân cách" value={profile.personality} />
+        <StatCard theme={theme} label="Sứ mệnh" value={profile.expression} />
+        <StatCard theme={theme} label="Năm cá nhân" value={profile.personalYear} tone="accent" />
+        <StatCard theme={theme} label="Trưởng thành" value={profile.maturity} />
+      </div>
+      <div className="panel-grid">
+        <BirthChart profile={profile} theme={theme} />
+        <ArrowPanel profile={profile} theme={theme} />
+        <PyramidPanel profile={profile} theme={theme} />
+      </div>
+    </div>
+  );
 }
 
 function AdvancedButtons({ profile, onSelect, theme }) {
   if (!profile) return null;
-  return <div className="advanced-wrap"><div className="advanced-title" style={{ color: theme.text }}><span>✦</span> Phân tích chuyên sâu cá nhân hoá</div><div className="advanced-grid">{ADVANCED_OPTIONS.map((item) => <button key={item.id} className="advanced-btn" style={{ background: theme.panel, borderColor: theme.border, color: theme.text }} onClick={() => onSelect(item.id, profile)}><span className="adv-icon" style={{ background: theme.accentSoft }}>{item.icon}</span><span><b>{item.title}</b><small style={{ color: theme.muted }}>{item.desc}</small></span></button>)}</div></div>;
+  return (
+    <div className="advanced-wrap">
+      <div className="advanced-title" style={{ color: theme.text }}>
+        <span>✦</span> Phân tích chuyên sâu cá nhân hoá
+      </div>
+      <div className="advanced-grid">
+        {ADVANCED_OPTIONS.map((item) => (
+          <button
+            key={item.id}
+            className="advanced-btn"
+            style={{ background: theme.panel, borderColor: theme.border, color: theme.text }}
+            onClick={() => onSelect(item.id, profile)}
+          >
+            <span className="adv-icon" style={{ background: theme.accentSoft }}>{item.icon}</span>
+            <span>
+              <b>{item.title}</b>
+              <small style={{ color: theme.muted }}>{item.desc}</small>
+            </span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 function SecondaryButtons({ profile, onSelect, theme }) {
   if (!profile) return null;
-  return <div className="advanced-wrap"><div className="advanced-title" style={{ color: theme.text }}><span>✦</span> Chọn một số phụ để xem full nội dung data</div><div className="advanced-grid">{SECONDARY_OPTIONS.map((item) => <button key={item.id} className="advanced-btn" style={{ background: theme.panel, borderColor: theme.border, color: theme.text }} onClick={() => onSelect(item.id, profile)}><span className="adv-icon" style={{ background: theme.accentSoft }}>{item.icon}</span><span><b>{item.title}</b><small style={{ color: theme.muted }}>{Array.isArray(profile[item.dataKey]) ? profile[item.dataKey].join(", ") || "Không nổi bật" : profile[item.dataKey]}</small></span></button>)}</div></div>;
+  return (
+    <div className="advanced-wrap">
+      <div className="advanced-title" style={{ color: theme.text }}>
+        <span>✦</span> Chọn một số phụ để xem full nội dung data
+      </div>
+      <div className="advanced-grid">
+        {SECONDARY_OPTIONS.map((item) => (
+          <button
+            key={item.id}
+            className="advanced-btn"
+            style={{ background: theme.panel, borderColor: theme.border, color: theme.text }}
+            onClick={() => onSelect(item.id, profile)}
+          >
+            <span className="adv-icon" style={{ background: theme.accentSoft }}>{item.icon}</span>
+            <span>
+              <b>{item.title}</b>
+              <small style={{ color: theme.muted }}>
+                {Array.isArray(profile[item.dataKey]) ? profile[item.dataKey].join(", ") || "Không nổi bật" : profile[item.dataKey]}
+              </small>
+            </span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 function Message({ message, theme, onCopy, onAdvancedSelect }) {
   const isUser = message.role === "user";
-  return <div className={`msg-row ${isUser ? "msg-user" : ""}`}>{!isUser && <div className="avatar ai" style={{ background: theme.accentSoft }}>✦</div>}<div className={`msg ${isUser ? "user-bubble" : "ai-bubble"}`} style={{ background: isUser ? theme.userBubble : theme.assistantBubble, borderColor: theme.border, color: theme.text }}><div className="msg-meta"><b>{isUser ? "Bạn" : "Thần Số Học GPT"}</b><span style={{ color: theme.muted }}>{formatTime(message.time)}</span></div><div className={message.kind === "deep" ? "full-data-text" : "msg-text"}>{message.content}</div>{!isUser && message.profile && <VisualPro profile={message.profile} theme={theme} />}{!isUser && message.kind === "main" && <AdvancedButtons profile={message.profile} onSelect={onAdvancedSelect} theme={theme} />}{!isUser && message.kind === "secondary" && <SecondaryButtons profile={message.profile} onSelect={onAdvancedSelect} theme={theme} />}{!isUser && <button className="copy-btn" style={{ color: theme.text, borderColor: theme.border }} onClick={() => onCopy(message.content)}>Sao chép</button>}</div>{isUser && <div className="avatar user" style={{ background: theme.panel }}>👤</div>}</div>;
+
+  return (
+    <div className={`msg-row ${isUser ? "msg-user" : ""}`}>
+      {!isUser && <div className="avatar ai" style={{ background: theme.accentSoft }}>✦</div>}
+      <div
+        className={`msg ${isUser ? "user-bubble" : "ai-bubble"}`}
+        style={{
+          background: isUser ? theme.userBubble : theme.assistantBubble,
+          borderColor: theme.border,
+          color: theme.text,
+        }}
+      >
+        <div className="msg-meta">
+          <b>{isUser ? "Bạn" : "Thần Số Học GPT"}</b>
+          <span style={{ color: theme.muted }}>{formatTime(message.time)}</span>
+        </div>
+        <div className={message.kind === "deep" ? "full-data-text" : "msg-text"}>{message.content}</div>
+        {!isUser && message.profile && <VisualPro profile={message.profile} theme={theme} />}
+        {!isUser && message.kind === "main" && <AdvancedButtons profile={message.profile} onSelect={onAdvancedSelect} theme={theme} />}
+        {!isUser && message.kind === "secondary" && <SecondaryButtons profile={message.profile} onSelect={onAdvancedSelect} theme={theme} />}
+        {!isUser && (
+          <button className="copy-btn" style={{ color: theme.text, borderColor: theme.border }} onClick={() => onCopy(message.content)}>
+            Sao chép
+          </button>
+        )}
+      </div>
+      {isUser && <div className="avatar user" style={{ background: theme.panel }}>👤</div>}
+    </div>
+  );
 }
 
 export default function App() {
   const [settings, setSettings] = useState(() => {
-    try { return JSON.parse(localStorage.getItem(SETTINGS_KEY)) || { themeMode: "dark", yearView: 2026 }; } catch { return { themeMode: "dark", yearView: 2026 }; }
+    try {
+      return JSON.parse(localStorage.getItem(SETTINGS_KEY)) || { themeMode: "dark", yearView: 2026 };
+    } catch {
+      return { themeMode: "dark", yearView: 2026 };
+    }
   });
 
   const [messages, setMessages] = useState(() => {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [{ id: makeId("welcome"), role: "assistant", kind: "main", content: "Xin chào, tôi là Thần Số Học GPT. Bạn hãy nhập họ tên và ngày sinh theo dạng dd/mm/yyyy. Sau khi có kết quả, bấm các mục chuyên sâu để xem full nội dung từ data đã update.", time: new Date().toISOString(), profile: null }]; } catch { return []; }
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [
+        {
+          id: makeId("welcome"),
+          role: "assistant",
+          kind: "main",
+          content: "Xin chào, tôi là Thần Số Học GPT. Bạn hãy nhập họ tên và ngày sinh theo dạng dd/mm/yyyy. Sau khi có kết quả, bấm các mục chuyên sâu để xem full nội dung từ data đã update.",
+          time: new Date().toISOString(),
+          profile: null,
+        },
+      ];
+    } catch {
+      return [];
+    }
   });
 
   const [history, setHistory] = useState(() => {
-    try { return JSON.parse(localStorage.getItem(HISTORY_KEY)) || []; } catch { return []; }
+    try {
+      return JSON.parse(localStorage.getItem(HISTORY_KEY)) || [];
+    } catch {
+      return [];
+    }
   });
 
   const [input, setInput] = useState("");
@@ -393,16 +785,35 @@ export default function App() {
   useEffect(() => localStorage.setItem(STORAGE_KEY, JSON.stringify(messages)), [messages]);
   useEffect(() => localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)), [settings]);
   useEffect(() => localStorage.setItem(HISTORY_KEY, JSON.stringify(history)), [history]);
-  useEffect(() => { document.body.style.background = theme.appBg; document.body.style.color = theme.text; }, [theme]);
+  useEffect(() => {
+    document.body.style.background = theme.appBg;
+    document.body.style.color = theme.text;
+  }, [theme]);
   useEffect(() => endRef.current?.scrollIntoView({ behavior: "smooth" }), [messages, typing]);
-  useEffect(() => { if (!textareaRef.current) return; textareaRef.current.style.height = "auto"; textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 220)}px`; }, [input]);
+  useEffect(() => {
+    if (!textareaRef.current) return;
+    textareaRef.current.style.height = "auto";
+    textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 220)}px`;
+  }, [input]);
 
   async function copyText(text) {
-    try { await navigator.clipboard.writeText(text); alert("Đã sao chép"); } catch { alert("Không sao chép được"); }
+    try {
+      await navigator.clipboard.writeText(text);
+      alert("Đã sao chép");
+    } catch {
+      alert("Không sao chép được");
+    }
   }
 
   function saveHistory(profile) {
-    const item = { id: `${profile.name}-${profile.date.raw}`, name: profile.name, dob: profile.date.raw, lifePath: profile.lifePath, prompt: `Tôi tên ${profile.name}, sinh ngày ${profile.date.raw}`, time: new Date().toISOString() };
+    const item = {
+      id: `${profile.name}-${profile.date.raw}`,
+      name: profile.name,
+      dob: profile.date.raw,
+      lifePath: profile.lifePath,
+      prompt: `Tôi tên ${profile.name}, sinh ngày ${profile.date.raw}`,
+      time: new Date().toISOString(),
+    };
     setHistory((prev) => [item, ...prev.filter((x) => x.id !== item.id)].slice(0, 14));
   }
 
@@ -412,16 +823,39 @@ export default function App() {
     setInput("");
     setMessages((prev) => [...prev, { id: makeId("user"), role: "user", kind: "user", content: text, time: new Date().toISOString(), profile: null }]);
     setTyping(true);
+
     setTimeout(() => {
       const { name, date } = extractNameAndDate(text);
+
       if (!date) {
-        setMessages((prev) => [...prev, { id: makeId("assistant"), role: "assistant", kind: "main", content: "Tôi chưa thấy ngày sinh hợp lệ. Anh/chị nhập theo mẫu: Tôi tên Nguyễn Hoàng Long, sinh ngày 17/01/1989", time: new Date().toISOString(), profile: null }]);
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: makeId("assistant"),
+            role: "assistant",
+            kind: "main",
+            content: "Tôi chưa thấy ngày sinh hợp lệ. Anh/chị nhập theo mẫu: Tôi tên Nguyễn Hoàng Long, sinh ngày 17/01/1989",
+            time: new Date().toISOString(),
+            profile: null,
+          },
+        ]);
         setTyping(false);
         return;
       }
+
       const profile = buildProfile(name, date, settings.yearView);
       saveHistory(profile);
-      setMessages((prev) => [...prev, { id: makeId("assistant"), role: "assistant", kind: "main", content: buildMainReply(profile), time: new Date().toISOString(), profile }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: makeId("assistant"),
+          role: "assistant",
+          kind: "main",
+          content: buildMainReply(profile),
+          time: new Date().toISOString(),
+          profile,
+        },
+      ]);
       setTyping(false);
     }, 600);
   }
@@ -436,8 +870,7 @@ export default function App() {
           id: makeId("year-warning"),
           role: "assistant",
           kind: "deep",
-          content:
-            "Anh cần phân tích một người trước đã. Ví dụ: Tôi tên Nguyễn Hoàng Long, sinh ngày 17/01/1989. Sau đó chọn năm và bấm OK để xem phân tích năm cá nhân.",
+          content: "Anh cần phân tích một người trước đã. Ví dụ: Tôi tên Nguyễn Hoàng Long, sinh ngày 17/01/1989. Sau đó chọn năm và bấm OK để xem phân tích năm cá nhân.",
           time: new Date().toISOString(),
           profile: null,
         },
@@ -488,14 +921,44 @@ Nếu muốn xem lại toàn bộ hồ sơ với năm ${settings.yearView}, anh 
 
   function handleAdvancedSelect(optionId, profile) {
     if (optionId === "secondary") {
-      setMessages((prev) => [...prev, { id: makeId("secondary"), role: "assistant", kind: "secondary", content: "Đã mở mục Các số phụ. Chọn một mục bên dưới để xem full nội dung data theo đúng con số cá nhân.", time: new Date().toISOString(), profile }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: makeId("secondary"),
+          role: "assistant",
+          kind: "secondary",
+          content: "Đã mở mục Các số phụ. Chọn một mục bên dưới để xem full nội dung data theo đúng con số cá nhân.",
+          time: new Date().toISOString(),
+          profile,
+        },
+      ]);
       return;
     }
-    setMessages((prev) => [...prev, { id: makeId("deep"), role: "assistant", kind: "deep", content: getAdvancedContent(optionId, profile), time: new Date().toISOString(), profile: null }]);
+
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: makeId("deep"),
+        role: "assistant",
+        kind: "deep",
+        content: getAdvancedContent(optionId, profile),
+        time: new Date().toISOString(),
+        profile: null,
+      },
+    ]);
   }
 
   function resetChat() {
-    setMessages([{ id: makeId("welcome"), role: "assistant", kind: "main", content: "Xin chào, tôi là Thần Số Học GPT. Bạn hãy nhập họ tên và ngày sinh theo dạng dd/mm/yyyy. Sau khi có kết quả, bấm các mục chuyên sâu để xem full nội dung từ data đã update.", time: new Date().toISOString(), profile: null }]);
+    setMessages([
+      {
+        id: makeId("welcome"),
+        role: "assistant",
+        kind: "main",
+        content: "Xin chào, tôi là Thần Số Học GPT. Bạn hãy nhập họ tên và ngày sinh theo dạng dd/mm/yyyy. Sau khi có kết quả, bấm các mục chuyên sâu để xem full nội dung từ data đã update.",
+        time: new Date().toISOString(),
+        profile: null,
+      },
+    ]);
   }
 
   return (
@@ -503,61 +966,151 @@ Nếu muốn xem lại toàn bộ hồ sơ với năm ${settings.yearView}, anh 
       <style>{css}</style>
       <div className="app" style={{ background: theme.appBg }}>
         <aside className="sidebar" style={{ background: theme.sidebarBg, borderColor: theme.border }}>
-          <div className="brand"><h1 style={{ color: theme.text }}>Thần Số Học GPT</h1><p style={{ color: theme.muted }}>PRO UI · Local engine · Full data modules</p></div>
-          <button className="new-btn" style={{ background: theme.accent }} onClick={resetChat}>✨ Cuộc trò chuyện mới</button>
+          <div className="brand">
+            <h1 style={{ color: theme.text }}>Thần Số Học GPT</h1>
+            <p style={{ color: theme.muted }}>PRO UI · Local engine · Full data modules</p>
+          </div>
+
+          <button className="new-btn" style={{ background: theme.accent }} onClick={resetChat}>
+            ✨ Cuộc trò chuyện mới
+          </button>
+
           <div className="side-card" style={{ background: theme.card, borderColor: theme.border }}>
             <h3 style={{ color: theme.text }}>Tùy chọn</h3>
             <label style={{ color: theme.muted, fontSize: 12 }}>Năm cần xem</label>
+
             <div style={{ display: "flex", gap: 8, marginTop: 6, marginBottom: 10 }}>
-              <input className="input" style={{ background: theme.panel, borderColor: theme.border, color: theme.text, flex: 1 }} type="number" value={settings.yearView} onChange={(e) => setSettings((p) => ({ ...p, yearView: Number(e.target.value) || new Date().getFullYear() }))} />
-              <button className="mini-btn" style={{ color: "#fff", borderColor: theme.accent, background: theme.accent, fontWeight: 800 }} onClick={analyzeSelectedYear}>OK</button>
+              <input
+                className="input"
+                style={{ background: theme.panel, borderColor: theme.border, color: theme.text, flex: 1 }}
+                type="number"
+                value={settings.yearView}
+                onChange={(e) => setSettings((p) => ({ ...p, yearView: Number(e.target.value) || new Date().getFullYear() }))}
+              />
+              <button
+                className="mini-btn"
+                style={{ color: "#fff", borderColor: theme.accent, background: theme.accent, fontWeight: 800 }}
+                onClick={analyzeSelectedYear}
+              >
+                OK
+              </button>
             </div>
+
             <div className="row">
-              <button className="mini-btn" style={{ color: theme.text, borderColor: theme.border, background: settings.themeMode === "dark" ? theme.accentSoft : "transparent" }} onClick={() => setSettings((p) => ({ ...p, themeMode: "dark" }))}>🌙 Dark</button>
-              <button className="mini-btn" style={{ color: theme.text, borderColor: theme.border, background: settings.themeMode === "light" ? theme.accentSoft : "transparent" }} onClick={() => setSettings((p) => ({ ...p, themeMode: "light" }))}>☀️ Light</button>
-              <button className="mini-btn" style={{ color: theme.text, borderColor: theme.border }} onClick={resetChat}>Xóa chat</button>
+              <button
+                className="mini-btn"
+                style={{ color: theme.text, borderColor: theme.border, background: settings.themeMode === "dark" ? theme.accentSoft : "transparent" }}
+                onClick={() => setSettings((p) => ({ ...p, themeMode: "dark" }))}
+              >
+                🌙 Dark
+              </button>
+              <button
+                className="mini-btn"
+                style={{ color: theme.text, borderColor: theme.border, background: settings.themeMode === "light" ? theme.accentSoft : "transparent" }}
+                onClick={() => setSettings((p) => ({ ...p, themeMode: "light" }))}
+              >
+                ☀️ Light
+              </button>
+              <button className="mini-btn" style={{ color: theme.text, borderColor: theme.border }} onClick={resetChat}>
+                Xóa chat
+              </button>
             </div>
           </div>
+
           <div className="side-card" style={{ background: theme.card, borderColor: theme.border }}>
             <h3 style={{ color: theme.text }}>Gợi ý nhập nhanh</h3>
-            {QUICK_PROMPTS.map((p) => <button key={p} className="prompt-btn" style={{ background: theme.panel, color: theme.text, borderColor: theme.border }} onClick={() => send(p)}>{p}</button>)}
+            {QUICK_PROMPTS.map((p) => (
+              <button key={p} className="prompt-btn" style={{ background: theme.panel, color: theme.text, borderColor: theme.border }} onClick={() => send(p)}>
+                {p}
+              </button>
+            ))}
           </div>
+
           <div className="side-card" style={{ background: theme.card, borderColor: theme.border }}>
             <h3 style={{ color: theme.text }}>Lịch sử người dùng</h3>
-            {history.length === 0 ? <p style={{ color: theme.muted, fontSize: 13 }}>Chưa có hồ sơ.</p> : history.map((h) => (
-              <div key={h.id} className="history-item" style={{ background: theme.panel, borderColor: theme.border }} onClick={() => send(h.prompt)}>
-                <b style={{ color: theme.text }}>{h.name}</b><span style={{ color: theme.muted }}>{h.dob} · Số chủ đạo {h.lifePath}</span>
-              </div>
-            ))}
+            {history.length === 0 ? (
+              <p style={{ color: theme.muted, fontSize: 13 }}>Chưa có hồ sơ.</p>
+            ) : (
+              history.map((h) => (
+                <div key={h.id} className="history-item" style={{ background: theme.panel, borderColor: theme.border }} onClick={() => send(h.prompt)}>
+                  <b style={{ color: theme.text }}>{h.name}</b>
+                  <span style={{ color: theme.muted }}>{h.dob} · Số chủ đạo {h.lifePath}</span>
+                </div>
+              ))
+            )}
           </div>
         </aside>
 
         <main className="main" style={{ background: theme.mainBg }}>
-          <header className="header" style={{ background: `${theme.mainBg}dd` }}><h2 style={{ color: theme.text }}>Thần Số Học GPT</h2><p style={{ color: theme.muted }}>Giao diện PRO · click xem full nội dung data đã update</p></header>
+          <header className="header" style={{ background: `${theme.mainBg}dd` }}>
+            <h2 style={{ color: theme.text }}>Thần Số Học GPT</h2>
+            <p style={{ color: theme.muted }}>Giao diện PRO · click xem full nội dung data đã update</p>
+          </header>
+
           <section className="chat">
             {messages.length <= 1 && (
               <div className="hero" style={{ background: theme.card, borderColor: theme.border }}>
                 <h1 style={{ color: theme.text }}>Thần Số Học GPT</h1>
-                <p style={{ color: theme.muted }}>Nhập họ tên và ngày sinh. Ứng dụng sẽ tính hồ sơ cá nhân, hiển thị biểu đồ minh hoạ và mở nội dung chuyên sâu từ các file data riêng.</p>
+                <p style={{ color: theme.muted }}>
+                  Nhập họ tên và ngày sinh. Ứng dụng sẽ tính hồ sơ cá nhân, hiển thị biểu đồ minh hoạ và mở nội dung chuyên sâu từ các file data riêng.
+                </p>
                 <div className="hero-grid">
                   {QUICK_PROMPTS.slice(0, 3).map((p, i) => (
                     <div key={p} className="hero-card" style={{ background: theme.panel, borderColor: theme.border }} onClick={() => send(p)}>
-                      <h3 style={{ color: theme.text }}>{["Phân tích cơ bản", "Xem năm cá nhân", "Biểu đồ & kim tự tháp"][i]}</h3><p style={{ color: theme.muted }}>{p}</p>
+                      <h3 style={{ color: theme.text }}>{["Phân tích cơ bản", "Xem năm cá nhân", "Biểu đồ & kim tự tháp"][i]}</h3>
+                      <p style={{ color: theme.muted }}>{p}</p>
                     </div>
                   ))}
                 </div>
               </div>
             )}
-            {messages.map((m) => <Message key={m.id} message={m} theme={theme} onCopy={copyText} onAdvancedSelect={handleAdvancedSelect} />)}
-            {typing && <div className="msg-row"><div className="avatar ai" style={{ background: theme.accentSoft }}>✦</div><div className="msg" style={{ background: theme.assistantBubble, borderColor: theme.border }}><div style={{ display: "flex", gap: 7 }}><span style={{ width: 8, height: 8, borderRadius: 99, background: theme.accent }} /><span style={{ width: 8, height: 8, borderRadius: 99, background: theme.accent }} /><span style={{ width: 8, height: 8, borderRadius: 99, background: theme.accent }} /></div></div></div>}
+
+            {messages.map((m) => (
+              <Message key={m.id} message={m} theme={theme} onCopy={copyText} onAdvancedSelect={handleAdvancedSelect} />
+            ))}
+
+            {typing && (
+              <div className="msg-row">
+                <div className="avatar ai" style={{ background: theme.accentSoft }}>✦</div>
+                <div className="msg" style={{ background: theme.assistantBubble, borderColor: theme.border }}>
+                  <div style={{ display: "flex", gap: 7 }}>
+                    <span style={{ width: 8, height: 8, borderRadius: 99, background: theme.accent }} />
+                    <span style={{ width: 8, height: 8, borderRadius: 99, background: theme.accent }} />
+                    <span style={{ width: 8, height: 8, borderRadius: 99, background: theme.accent }} />
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div ref={endRef} />
           </section>
 
           <div className="inputbar" style={{ background: `${theme.mainBg}dd` }}>
-            <div className="input-inner"><div className="input-box" style={{ background: theme.inputBg, borderColor: theme.border }}>
-              <textarea ref={textareaRef} className="textarea" style={{ color: theme.text }} value={input} rows={1} placeholder="Nhập họ tên và ngày sinh của bạn..." onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } }} />
-              <button className="send" style={{ background: input.trim() ? theme.accent : theme.border }} disabled={!input.trim()} onClick={() => send()}>➤</button>
-            </div><div className="hint" style={{ color: theme.muted }}>Ví dụ: Tôi tên Nguyễn Hoàng Long, sinh ngày 17/01/1989</div></div>
+            <div className="input-inner">
+              <div className="input-box" style={{ background: theme.inputBg, borderColor: theme.border }}>
+                <textarea
+                  ref={textareaRef}
+                  className="textarea"
+                  style={{ color: theme.text }}
+                  value={input}
+                  rows={1}
+                  placeholder="Nhập họ tên và ngày sinh của bạn..."
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault();
+                      send();
+                    }
+                  }}
+                />
+                <button className="send" style={{ background: input.trim() ? theme.accent : theme.border }} disabled={!input.trim()} onClick={() => send()}>
+                  ➤
+                </button>
+              </div>
+              <div className="hint" style={{ color: theme.muted }}>
+                Ví dụ: Tôi tên Nguyễn Hoàng Long, sinh ngày 17/01/1989
+              </div>
+            </div>
           </div>
         </main>
       </div>
