@@ -426,6 +426,66 @@ export default function App() {
     }, 600);
   }
 
+  function analyzeSelectedYear() {
+    const lastProfile = [...messages].reverse().find((m) => m.profile)?.profile;
+
+    if (!lastProfile) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: makeId("year-warning"),
+          role: "assistant",
+          kind: "deep",
+          content:
+            "Anh cần phân tích một người trước đã. Ví dụ: Tôi tên Nguyễn Hoàng Long, sinh ngày 17/01/1989. Sau đó chọn năm và bấm OK để xem phân tích năm cá nhân.",
+          time: new Date().toISOString(),
+          profile: null,
+        },
+      ]);
+      return;
+    }
+
+    const newProfile = buildProfile(lastProfile.name, lastProfile.date, settings.yearView);
+
+    const content = `PHÂN TÍCH NĂM CÁ NHÂN ${settings.yearView}
+
+Họ tên: ${newProfile.name}
+Ngày sinh: ${newProfile.date.raw}
+
+Năm cá nhân: ${newProfile.personalYear}
+
+${PERSONAL_YEAR_DATA[newProfile.personalYear] || "Chưa có dữ liệu năm cá nhân này."}
+
+LUẬN GIẢI CÁ NHÂN HÓA:
+Năm ${settings.yearView} của ${newProfile.name} mang năng lượng số ${newProfile.personalYear}. Đây là chu kỳ ảnh hưởng trực tiếp đến cảm xúc, lựa chọn, công việc, quan hệ và hướng phát triển trong năm.
+
+HƯỚNG ỨNG DỤNG TRONG NĂM:
+- Quan sát năng lượng chính của năm cá nhân ${newProfile.personalYear}.
+- Không nên đi ngược nhịp năm cá nhân.
+- Dùng năm này để điều chỉnh kế hoạch công việc, tài chính, tình cảm và định hướng bản thân.
+
+GỢI Ý THEO HỒ SƠ CÁ NHÂN:
+- Số chủ đạo: ${newProfile.lifePath}
+- Số linh hồn: ${newProfile.soulUrge}
+- Số nhân cách: ${newProfile.personality}
+- Cầu nối thành công: ${newProfile.successBridge}
+- Cầu nối hạnh phúc: ${newProfile.happinessBridge}
+
+Nếu muốn xem lại toàn bộ hồ sơ với năm ${settings.yearView}, anh có thể bấm lại gợi ý hoặc nhập lại tên + ngày sinh.`;
+
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: makeId("personal-year"),
+        role: "assistant",
+        kind: "deep",
+        content,
+        time: new Date().toISOString(),
+        profile: newProfile,
+      },
+    ]);
+  }
+
   function handleAdvancedSelect(optionId, profile) {
     if (optionId === "secondary") {
       setMessages((prev) => [...prev, { id: makeId("secondary"), role: "assistant", kind: "secondary", content: "Đã mở mục Các số phụ. Chọn một mục bên dưới để xem full nội dung data theo đúng con số cá nhân.", time: new Date().toISOString(), profile }]);
@@ -448,7 +508,10 @@ export default function App() {
           <div className="side-card" style={{ background: theme.card, borderColor: theme.border }}>
             <h3 style={{ color: theme.text }}>Tùy chọn</h3>
             <label style={{ color: theme.muted, fontSize: 12 }}>Năm cần xem</label>
-            <input className="input" style={{ background: theme.panel, borderColor: theme.border, color: theme.text, marginTop: 6, marginBottom: 10 }} type="number" value={settings.yearView} onChange={(e) => setSettings((p) => ({ ...p, yearView: Number(e.target.value) || new Date().getFullYear() }))} />
+            <div style={{ display: "flex", gap: 8, marginTop: 6, marginBottom: 10 }}>
+              <input className="input" style={{ background: theme.panel, borderColor: theme.border, color: theme.text, flex: 1 }} type="number" value={settings.yearView} onChange={(e) => setSettings((p) => ({ ...p, yearView: Number(e.target.value) || new Date().getFullYear() }))} />
+              <button className="mini-btn" style={{ color: "#fff", borderColor: theme.accent, background: theme.accent, fontWeight: 800 }} onClick={analyzeSelectedYear}>OK</button>
+            </div>
             <div className="row">
               <button className="mini-btn" style={{ color: theme.text, borderColor: theme.border, background: settings.themeMode === "dark" ? theme.accentSoft : "transparent" }} onClick={() => setSettings((p) => ({ ...p, themeMode: "dark" }))}>🌙 Dark</button>
               <button className="mini-btn" style={{ color: theme.text, borderColor: theme.border, background: settings.themeMode === "light" ? theme.accentSoft : "transparent" }} onClick={() => setSettings((p) => ({ ...p, themeMode: "light" }))}>☀️ Light</button>
