@@ -651,8 +651,41 @@ function cleanSpeechText(text = "") {
   return String(text)
     .replace(/[★✦◆◇▪︎•●]/g, " ")
     .replace(/[━─]+/g, " ")
+    .replace(/[↗↘△☉]/g, " ")
+    .replace(/\bPRO MAX FINAL\b/gi, "")
+    .replace(/\bPRO MAX\b/gi, "")
+    .replace(/\bGPT\b/g, "G P T")
+    .replace(/\bdd\/mm\/yyyy\b/gi, "ngày, tháng, năm")
+    .replace(/(\d+)\/(\d+)/g, "$1 trên $2")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function getVietnameseVoice() {
+  if (typeof window === "undefined" || !("speechSynthesis" in window)) return null;
+
+  const voices = window.speechSynthesis.getVoices?.() || [];
+  const scoreVoice = (voice) => {
+    const lang = (voice.lang || "").toLowerCase();
+    const name = (voice.name || "").toLowerCase();
+    let score = 0;
+
+    if (lang === "vi-vn") score += 100;
+    if (lang.startsWith("vi")) score += 70;
+    if (name.includes("vietnam") || name.includes("vietnamese")) score += 60;
+    if (name.includes("an") || name.includes("linh") || name.includes("mai") || name.includes("hoai")) score += 20;
+    if (voice.localService) score += 6;
+
+    return score;
+  };
+
+  return voices
+    .filter((voice) => {
+      const lang = (voice.lang || "").toLowerCase();
+      const name = (voice.name || "").toLowerCase();
+      return lang.startsWith("vi") || name.includes("vietnam") || name.includes("vietnamese");
+    })
+    .sort((a, b) => scoreVoice(b) - scoreVoice(a))[0] || null;
 }
 
 function speakText(text) {
@@ -661,23 +694,39 @@ function speakText(text) {
     return;
   }
 
-  window.speechSynthesis.cancel();
+  const synth = window.speechSynthesis;
+  const content = cleanSpeechText(text);
 
-  const utterance = new SpeechSynthesisUtterance(cleanSpeechText(text));
-  utterance.lang = "vi-VN";
-  utterance.rate = 0.95;
-  utterance.pitch = 1;
-  utterance.volume = 1;
+  if (!content) return;
 
-  const voices = window.speechSynthesis.getVoices?.() || [];
-  const vietnameseVoice =
-    voices.find((voice) => voice.lang?.toLowerCase().startsWith("vi")) ||
-    voices.find((voice) => voice.name?.toLowerCase().includes("vietnam")) ||
-    null;
+  const speakNow = () => {
+    synth.cancel();
 
-  if (vietnameseVoice) utterance.voice = vietnameseVoice;
+    const utterance = new SpeechSynthesisUtterance(content);
+    const vietnameseVoice = getVietnameseVoice();
 
-  window.speechSynthesis.speak(utterance);
+    utterance.lang = "vi-VN";
+    utterance.rate = 0.88;
+    utterance.pitch = 1;
+    utterance.volume = 1;
+
+    if (vietnameseVoice) {
+      utterance.voice = vietnameseVoice;
+      utterance.lang = vietnameseVoice.lang || "vi-VN";
+    }
+
+    synth.speak(utterance);
+  };
+
+  const voices = synth.getVoices?.() || [];
+
+  if (!voices.length) {
+    synth.onvoiceschanged = () => speakNow();
+    setTimeout(speakNow, 350);
+    return;
+  }
+
+  speakNow();
 }
 
 function stopSpeak() {
@@ -974,6 +1023,23 @@ export default function App() {
     textareaRef.current.style.height = "auto";
     textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 220)}px`;
   }, [input]);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+
+    const synth = window.speechSynthesis;
+    const loadVietnameseVoices = () => {
+      synth.getVoices?.();
+      getVietnameseVoice();
+    };
+
+    loadVietnameseVoices();
+    synth.onvoiceschanged = loadVietnameseVoices;
+
+    return () => {
+      synth.onvoiceschanged = null;
+    };
+  }, []);
 
   useEffect(() => {
     return () => {
