@@ -137,6 +137,76 @@ const lightTheme = {
 
 const css = `
 *{box-sizing:border-box}body{margin:0}.app{min-height:100vh;display:grid;grid-template-columns:320px 1fr;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.sidebar{padding:20px;border-right:1px solid;position:sticky;top:0;height:100vh;overflow:auto}.brand h1{font-size:28px;line-height:1.06;margin:0;font-weight:850;letter-spacing:-.04em}.brand p{font-size:13px;line-height:1.5;margin:8px 0 18px}.new-btn{width:100%;border:0;border-radius:16px;padding:13px 14px;color:#fff;font-weight:800;cursor:pointer;margin-bottom:14px;box-shadow:0 12px 30px rgba(16,163,127,.22)}.side-card{border:1px solid;border-radius:18px;padding:14px;margin-bottom:14px}.side-card h3{font-size:15px;margin:0 0 12px}.input{width:100%;border:1px solid;border-radius:13px;padding:11px 12px;outline:none}.row{display:flex;gap:8px;flex-wrap:wrap}.mini-btn,.prompt-btn{border:1px solid;border-radius:12px;background:transparent;padding:9px 11px;cursor:pointer}.prompt-btn{text-align:left;width:100%;margin-bottom:8px;line-height:1.4}.history-item{border:1px solid;border-radius:14px;padding:10px 12px;margin-bottom:8px;cursor:pointer}.history-item b{display:block;font-size:13px;margin-bottom:4px}.history-item span{font-size:12px}.main{display:flex;flex-direction:column;min-width:0}.header{padding:26px 32px 10px;position:sticky;top:0;z-index:3;backdrop-filter:blur(14px)}.header h2{font-size:40px;margin:0;font-weight:850;letter-spacing:-.05em}.header p{margin:8px 0 0;font-size:14px}.chat{flex:1;padding:22px 32px 160px;overflow:auto}.hero{border:1px solid;border-radius:28px;padding:28px;margin-bottom:24px;box-shadow:0 24px 70px rgba(0,0,0,.14)}.hero h1{text-align:center;font-size:52px;line-height:1.05;margin:0 0 12px;letter-spacing:-.06em}.hero p{text-align:center;max-width:760px;margin:0 auto 22px;line-height:1.65}.hero-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.hero-card{border:1px solid;border-radius:18px;padding:16px;cursor:pointer}.hero-card h3{margin:0 0 8px}.hero-card p{text-align:left;margin:0;font-size:13px}.msg-row{display:flex;gap:12px;align-items:flex-start;margin-bottom:18px}.msg-user{justify-content:flex-end}.avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}.msg{width:min(100%,1040px);border:1px solid;border-radius:22px;padding:16px;box-shadow:0 14px 35px rgba(0,0,0,.12)}.msg-meta{display:flex;justify-content:space-between;gap:12px;font-size:12px;margin-bottom:10px}.msg-text{white-space:pre-wrap;line-height:1.75;font-size:15px;word-break:break-word}.full-data-text{white-space:pre-wrap;line-height:1.85;font-size:15.5px;word-break:break-word}.copy-btn{margin-top:12px;background:transparent;border:1px solid;border-radius:10px;padding:8px 10px;cursor:pointer;font-size:12px}.visual-pro{margin-top:18px}.metrics-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:14px}.ts-card{border:1px solid;border-radius:16px;padding:12px}.ts-card-label{font-size:12px;margin-bottom:6px}.ts-card-value{font-size:26px;font-weight:850}.panel-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}.pro-panel{border:1px solid;border-radius:20px;padding:16px}.panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:14px}.panel-head h3{margin:0;font-size:16px}.panel-head p{margin:4px 0 0;font-size:12px}.panel-badge{border-radius:999px;padding:5px 9px;font-size:11px;font-weight:800}.birth-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.birth-cell{border:1px solid;border-radius:14px;padding:10px;min-height:68px;display:flex;flex-direction:column;justify-content:space-between}.birth-cell span{font-size:12px}.birth-cell strong{font-size:20px;letter-spacing:1px}.arrow-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.arrow-chip{border:1px solid;border-radius:13px;padding:10px;display:flex;justify-content:space-between;gap:8px;align-items:center}.arrow-chip span{font-size:12px}.pyramid{display:flex;flex-direction:column;align-items:center;gap:10px;margin:8px 0 14px}.p-row{display:flex;gap:18px}.p-node{width:58px;height:58px;border:1px solid;border-radius:17px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:850}.p-node.bottom{width:78px;height:78px;font-size:30px}.timeline{display:flex;flex-direction:column;gap:8px}.timeline-item{border:1px solid;border-radius:13px;padding:10px}.timeline-item b{display:block;font-size:13px}.timeline-item span{font-size:12px}.advanced-wrap{margin-top:18px}.advanced-title{font-weight:850;margin-bottom:10px;display:flex;gap:8px;align-items:center}.advanced-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}.advanced-btn{border:1px solid;border-radius:16px;padding:12px;text-align:left;cursor:pointer;display:flex;gap:10px;align-items:flex-start}.advanced-btn:hover{transform:translateY(-1px)}.advanced-btn b{display:block;margin-bottom:4px}.advanced-btn small{display:block;line-height:1.35}.adv-icon{width:32px;height:32px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}.inputbar{position:sticky;bottom:0;padding:18px 24px 22px;backdrop-filter:blur(14px);z-index:4}.input-inner{max-width:1040px;margin:0 auto}.input-box{display:flex;gap:12px;border:1px solid;border-radius:22px;padding:12px;align-items:flex-end}.textarea{width:100%;border:0;outline:0;resize:none;background:transparent;font:inherit;line-height:1.55;max-height:220px}.send{width:44px;height:44px;border:0;border-radius:15px;color:#fff;font-weight:900;cursor:pointer;flex-shrink:0}.hint{text-align:center;font-size:12px;margin-top:8px}@media(max-width:900px){.app{grid-template-columns:1fr}.sidebar{position:relative;height:auto;border-right:0;border-bottom:1px solid}.header{position:relative}.chat{padding:16px 14px 150px}.hero h1{font-size:38px}.msg{border-radius:18px}.avatar{display:none}}@media(max-width:560px){.header h2{font-size:31px}.hero{padding:18px}.hero h1{font-size:32px}.metrics-row{grid-template-columns:repeat(2,1fr)}.panel-grid{grid-template-columns:1fr}.advanced-grid{grid-template-columns:1fr}.arrow-grid{grid-template-columns:1fr}.sidebar{padding:14px}.chat{padding-left:10px;padding-right:10px}}
+
+
+/* ===================== PRO MAX UI UPGRADE ===================== */
+.app{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+}
+.app:before{
+  content:"";
+  position:fixed;
+  inset:-20%;
+  z-index:-2;
+  background:
+    radial-gradient(circle at 18% 14%, rgba(16,163,127,.26), transparent 30%),
+    radial-gradient(circle at 78% 8%, rgba(84,105,212,.22), transparent 34%),
+    radial-gradient(circle at 50% 100%, rgba(255,255,255,.08), transparent 28%),
+    linear-gradient(135deg, rgba(8,11,20,.96), rgba(11,16,32,.98));
+  animation:proMaxGalaxy 18s ease-in-out infinite alternate;
+}
+.app:after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  opacity:.32;
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,.75) 0 1px, transparent 1.6px),
+    radial-gradient(circle, rgba(16,163,127,.7) 0 1px, transparent 1.8px);
+  background-size:84px 84px, 137px 137px;
+  background-position:0 0, 22px 40px;
+  animation:proMaxStars 45s linear infinite;
+}
+@keyframes proMaxGalaxy{from{transform:scale(1) rotate(0deg)}to{transform:scale(1.08) rotate(2deg)}}
+@keyframes proMaxStars{from{transform:translateY(0)}to{transform:translateY(-120px)}}
+.sidebar,.header,.inputbar{background-color:rgba(13,19,35,.72)!important;backdrop-filter:blur(20px) saturate(140%)}
+.sidebar{box-shadow:18px 0 60px rgba(0,0,0,.25)}
+.brand h1,.header h2,.hero h1{background:linear-gradient(90deg,#fff,#a7f3d0,#93c5fd);-webkit-background-clip:text;background-clip:text;color:transparent!important}
+.new-btn,.send{box-shadow:0 14px 38px rgba(16,163,127,.34)}
+.side-card,.hero,.msg,.pro-panel,.ts-card,.advanced-btn,.input-box{
+  box-shadow:0 20px 60px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.04);
+}
+.hero,.msg,.pro-panel,.side-card,.input-box{
+  border-color:rgba(148,163,184,.22)!important;
+}
+.promax-message{position:relative;overflow:hidden}
+.promax-message:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(135deg,rgba(255,255,255,.055),transparent 34%,rgba(16,163,127,.045));
+}
+.promax-avatar{box-shadow:0 0 0 1px rgba(255,255,255,.08),0 0 30px rgba(16,163,127,.24)}
+.ts-card,.birth-cell,.arrow-chip,.timeline-item,.advanced-btn,.hero-card,.history-item,.prompt-btn,.mini-btn{transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+.ts-card:hover,.birth-cell:hover,.arrow-chip:hover,.timeline-item:hover,.advanced-btn:hover,.hero-card:hover,.history-item:hover,.prompt-btn:hover,.mini-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 14px 34px rgba(0,0,0,.18);
+}
+.advanced-btn{min-height:82px}
+.panel-head h3,.advanced-title{letter-spacing:-.02em}
+.birth-cell strong,.ts-card-value,.p-node{text-shadow:0 0 18px rgba(147,197,253,.2)}
+.p-node{box-shadow:0 10px 32px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.06)}
+.copy-btn:hover{background:rgba(255,255,255,.06)}
+.textarea::placeholder{color:rgba(147,164,187,.85)}
+.chat::-webkit-scrollbar,.sidebar::-webkit-scrollbar{width:10px}
+.chat::-webkit-scrollbar-thumb,.sidebar::-webkit-scrollbar-thumb{background:rgba(148,163,184,.25);border-radius:999px}
+.chat::-webkit-scrollbar-track,.sidebar::-webkit-scrollbar-track{background:transparent}
+@media(max-width:900px){.sidebar,.header,.inputbar{background-color:rgba(13,19,35,.86)!important}}
 `;
 
 function makeId(prefix = "id") {
@@ -711,12 +781,14 @@ function SecondaryButtons({ profile, onSelect, theme }) {
 
 function Message({ message, theme, onCopy, onAdvancedSelect }) {
   const isUser = message.role === "user";
+  const isMainAnalysis = !isUser && message.kind === "main" && message.profile;
+  const isSecondaryMenu = !isUser && message.kind === "secondary" && message.profile;
 
   return (
     <div className={`msg-row ${isUser ? "msg-user" : ""}`}>
-      {!isUser && <div className="avatar ai" style={{ background: theme.accentSoft }}>✦</div>}
+      {!isUser && <div className="avatar ai promax-avatar" style={{ background: theme.accentSoft }}>✦</div>}
       <div
-        className={`msg ${isUser ? "user-bubble" : "ai-bubble"}`}
+        className={`msg ${isUser ? "user-bubble" : "ai-bubble"} promax-message`}
         style={{
           background: isUser ? theme.userBubble : theme.assistantBubble,
           borderColor: theme.border,
@@ -728,16 +800,19 @@ function Message({ message, theme, onCopy, onAdvancedSelect }) {
           <span style={{ color: theme.muted }}>{formatTime(message.time)}</span>
         </div>
         <div className={message.kind === "deep" ? "full-data-text" : "msg-text"}>{message.content}</div>
-        {!isUser && message.profile && <VisualPro profile={message.profile} theme={theme} />}
-        {!isUser && message.kind === "main" && <AdvancedButtons profile={message.profile} onSelect={onAdvancedSelect} theme={theme} />}
-        {!isUser && message.kind === "secondary" && <SecondaryButtons profile={message.profile} onSelect={onAdvancedSelect} theme={theme} />}
+
+        {/* PRO MAX FIX: bảng tổng quan chỉ hiện ở câu phân tích chính, không lặp lại ở câu trả lời sau */}
+        {isMainAnalysis && <VisualPro profile={message.profile} theme={theme} />}
+        {isMainAnalysis && <AdvancedButtons profile={message.profile} onSelect={onAdvancedSelect} theme={theme} />}
+        {isSecondaryMenu && <SecondaryButtons profile={message.profile} onSelect={onAdvancedSelect} theme={theme} />}
+
         {!isUser && (
           <button className="copy-btn" style={{ color: theme.text, borderColor: theme.border }} onClick={() => onCopy(message.content)}>
             Sao chép
           </button>
         )}
       </div>
-      {isUser && <div className="avatar user" style={{ background: theme.panel }}>👤</div>}
+      {isUser && <div className="avatar user promax-avatar" style={{ background: theme.panel }}>👤</div>}
     </div>
   );
 }
@@ -968,7 +1043,7 @@ Nếu muốn xem lại toàn bộ hồ sơ với năm ${settings.yearView}, anh 
         <aside className="sidebar" style={{ background: theme.sidebarBg, borderColor: theme.border }}>
           <div className="brand">
             <h1 style={{ color: theme.text }}>Thần Số Học GPT</h1>
-            <p style={{ color: theme.muted }}>PRO UI · Local engine · Full data modules</p>
+            <p style={{ color: theme.muted }}>PRO MAX UI · Galaxy glass · Full data modules</p>
           </div>
 
           <button className="new-btn" style={{ background: theme.accent }} onClick={resetChat}>
@@ -1044,7 +1119,7 @@ Nếu muốn xem lại toàn bộ hồ sơ với năm ${settings.yearView}, anh 
         <main className="main" style={{ background: theme.mainBg }}>
           <header className="header" style={{ background: `${theme.mainBg}dd` }}>
             <h2 style={{ color: theme.text }}>Thần Số Học GPT</h2>
-            <p style={{ color: theme.muted }}>Giao diện PRO · click xem full nội dung data đã update</p>
+            <p style={{ color: theme.muted }}>Giao diện PRO MAX · galaxy glass · click xem full nội dung data</p>
           </header>
 
           <section className="chat">
