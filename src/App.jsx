@@ -1455,7 +1455,7 @@ Nếu muốn xem lại toàn bộ hồ sơ với năm ${settings.yearView}, anh 
                 <div className="app-banner-kicker">Numerology · Galaxy · Personal Map</div>
                 <h2 className="app-banner-title">Thần Số Học GPT</h2>
                 <p className="app-banner-subtitle">
-                  Khám phá bản thân qua các con số, biểu đồ ngày sinh, mũi tên cá tính và các chu kỳ cá nhân.
+                  Để hiểu rõ hơn những “thông điệp” từ các con số và khám phá chính bản thân.
                 </p>
               </div>
             </div>
