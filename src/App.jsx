@@ -363,6 +363,77 @@ button{touch-action:manipulation}
   .audio-actions{gap:7px;margin-top:10px}
   .voice-btn{min-height:36px;font-size:11.5px;padding:7px 9px}
 }
+
+
+/* ===================== SIDEBAR 3-6-9 ANIMATED BACKGROUND ===================== */
+.sidebar{
+  position:sticky;
+  overflow:hidden;
+}
+.sidebar::before{
+  content:"";
+  position:absolute;
+  inset:-8%;
+  background:url('/sidebar-bg.jpg') center/cover no-repeat;
+  opacity:.28;
+  z-index:0;
+  animation:sidebar369Breath 9s ease-in-out infinite alternate;
+  transform-origin:center;
+  pointer-events:none;
+}
+.sidebar::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(255,184,77,.22), transparent 24%),
+    radial-gradient(circle at 50% 50%, rgba(255,184,77,.16), transparent 28%),
+    radial-gradient(circle at 50% 82%, rgba(255,184,77,.18), transparent 26%),
+    linear-gradient(to bottom, rgba(5,7,15,.82), rgba(5,7,15,.96));
+  animation:sidebar369Glow 5.5s ease-in-out infinite alternate;
+}
+.sidebar > *{
+  position:relative;
+  z-index:2;
+}
+@keyframes sidebar369Breath{
+  0%{transform:scale(1);filter:brightness(.85) contrast(1.05) saturate(1)}
+  100%{transform:scale(1.06);filter:brightness(1.18) contrast(1.18) saturate(1.18)}
+}
+@keyframes sidebar369Glow{
+  0%{opacity:.78}
+  100%{opacity:1}
+}
+.sidebar .brand{
+  position:relative;
+  overflow:hidden;
+  border-radius:18px;
+  padding:8px 8px 12px;
+  margin:-8px -8px 12px;
+}
+.sidebar .brand::after{
+  content:"";
+  position:absolute;
+  left:-45%;
+  top:-40%;
+  width:190%;
+  height:180%;
+  z-index:-1;
+  background:linear-gradient(115deg, transparent 0%, rgba(255,191,87,.08) 42%, rgba(255,191,87,.26) 50%, rgba(255,191,87,.08) 58%, transparent 100%);
+  animation:sidebar369LightSweep 6s ease-in-out infinite;
+}
+@keyframes sidebar369LightSweep{
+  0%{transform:translateX(-45%);opacity:0}
+  35%{opacity:1}
+  70%{opacity:1}
+  100%{transform:translateX(45%);opacity:0}
+}
+@media(max-width:900px){
+  .sidebar::before{opacity:.18;animation-duration:12s}
+  .sidebar::after{background:linear-gradient(to bottom, rgba(5,7,15,.82), rgba(5,7,15,.94))}
+}
 `;
 
 function makeId(prefix = "id") {
