@@ -7,9 +7,9 @@ import { DEBT_DATA } from "./data/data_debt";
 import { LIFE_PATH_DATA } from "./data/lifepath";
 import { arrowData } from "./data/data_arrows";
 
-const STORAGE_KEY = "than_so_hoc_gpt_pro_messages_v12";
-const SETTINGS_KEY = "than_so_hoc_gpt_pro_settings_v12";
-const HISTORY_KEY = "than_so_hoc_gpt_pro_history_v12";
+const STORAGE_KEY = "than_so_hoc_gpt_pro_messages_v13_final";
+const SETTINGS_KEY = "than_so_hoc_gpt_pro_settings_v13_final";
+const HISTORY_KEY = "than_so_hoc_gpt_pro_history_v13_final";
 const MASTER_NUMBERS = [11, 22, 33];
 
 const QUICK_PROMPTS = [
@@ -207,6 +207,33 @@ const css = `
 .chat::-webkit-scrollbar-thumb,.sidebar::-webkit-scrollbar-thumb{background:rgba(148,163,184,.25);border-radius:999px}
 .chat::-webkit-scrollbar-track,.sidebar::-webkit-scrollbar-track{background:transparent}
 @media(max-width:900px){.sidebar,.header,.inputbar{background-color:rgba(13,19,35,.86)!important}}
+
+
+/* ===================== PRO MAX FINAL MOBILE-FIRST UPGRADE ===================== */
+:root{color-scheme:dark}
+button,input,textarea{font-family:inherit;-webkit-tap-highlight-color:transparent}
+button{touch-action:manipulation}
+.app{min-height:100dvh}
+.main{height:100dvh;overflow:hidden}
+.chat{scroll-behavior:smooth}
+.sidebar,.header,.inputbar,.side-card,.hero,.msg,.pro-panel,.ts-card,.advanced-btn,.input-box,.history-item,.prompt-btn,.mini-btn{border-color:rgba(148,163,184,.18)!important}
+.header{box-shadow:0 18px 50px rgba(0,0,0,.16)}
+.header:after{content:"PRO MAX FINAL";display:inline-flex;margin-top:10px;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:900;letter-spacing:.08em;color:#d1fae5;background:rgba(16,163,127,.14);border:1px solid rgba(16,163,127,.28)}
+.brand:before{content:"✦";display:inline-flex;width:42px;height:42px;align-items:center;justify-content:center;border-radius:16px;margin-bottom:12px;color:#d1fae5;background:linear-gradient(135deg,rgba(16,163,127,.32),rgba(96,165,250,.16));box-shadow:0 18px 40px rgba(16,163,127,.18)}
+.new-btn,.send,.mini-btn,.prompt-btn,.advanced-btn,.hero-card,.history-item{user-select:none}
+.new-btn:active,.send:active,.mini-btn:active,.prompt-btn:active,.advanced-btn:active,.hero-card:active,.history-item:active{transform:scale(.985)}
+.input:focus,.textarea:focus{outline:none}
+.input:focus,.input-box:focus-within{border-color:rgba(16,163,127,.7)!important;box-shadow:0 0 0 4px rgba(16,163,127,.13)}
+.msg{animation:proMaxMessageIn .25s ease both}
+@keyframes proMaxMessageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.ts-card{position:relative;overflow:hidden}
+.ts-card:after{content:"";position:absolute;inset:auto 12px 10px 12px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent)}
+.metrics-row{align-items:stretch}.ts-card-value{line-height:1}.birth-grid,.arrow-grid,.advanced-grid{align-items:stretch}.arrow-chip strong{font-size:13px;line-height:1.25}.arrow-chip span{white-space:nowrap}.full-data-text{max-width:920px}
+@media(max-width:1100px){.app{grid-template-columns:280px 1fr}.header h2{font-size:34px}.hero h1{font-size:44px}.chat{padding-left:20px;padding-right:20px}}
+@media(max-width:900px){.app{display:block;overflow:auto}.main{height:auto;min-height:100dvh;overflow:visible}.sidebar{position:relative!important;height:auto!important;max-height:none;padding:14px;border-right:0!important;border-bottom:1px solid rgba(148,163,184,.18)!important}.brand{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;margin-bottom:12px}.brand:before{margin:0;width:38px;height:38px;border-radius:14px}.brand h1{font-size:23px!important}.brand p{grid-column:1 / -1;margin:0!important;font-size:12px!important}.new-btn{min-height:46px;border-radius:15px;margin-bottom:10px}.side-card{padding:12px;border-radius:16px;margin-bottom:10px}.side-card h3{font-size:14px;margin-bottom:9px}.prompt-btn{font-size:13px;min-height:44px;margin-bottom:7px}.history-item{padding:9px 10px}.header{position:sticky!important;top:0;padding:14px 14px 10px;z-index:30}.header h2{font-size:27px!important;line-height:1.05}.header p{font-size:12px;margin-top:6px}.header:after{font-size:10px;padding:5px 8px;margin-top:8px}.chat{padding:12px 10px 150px!important;overflow:visible}.hero{padding:18px;border-radius:22px;margin-bottom:14px}.hero h1{font-size:32px!important}.hero p{font-size:13px;line-height:1.55;margin-bottom:14px}.hero-grid{grid-template-columns:1fr!important;gap:9px}.hero-card{padding:13px;border-radius:16px}.msg-row{gap:0;margin-bottom:12px}.avatar{display:none!important}.msg{width:100%!important;border-radius:18px!important;padding:14px!important;box-shadow:0 12px 36px rgba(0,0,0,.18)}.msg-meta{font-size:11px;margin-bottom:8px}.msg-text,.full-data-text{font-size:14px!important;line-height:1.7!important}.visual-pro{margin-top:14px}.metrics-row{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px;margin-bottom:10px}.ts-card{padding:10px;border-radius:14px;min-height:74px}.ts-card-label{font-size:11px}.ts-card-value{font-size:23px!important}.panel-grid{grid-template-columns:1fr!important;gap:10px}.pro-panel{padding:13px;border-radius:18px}.panel-head{margin-bottom:10px}.panel-head h3{font-size:15px}.panel-head p{font-size:11px}.birth-grid{gap:7px}.birth-cell{min-height:58px;padding:8px;border-radius:13px}.birth-cell strong{font-size:18px}.arrow-grid{grid-template-columns:1fr!important;gap:7px}.arrow-chip{min-height:48px;padding:9px;border-radius:13px}.p-node{width:52px;height:52px;font-size:21px;border-radius:16px}.p-node.bottom{width:68px;height:68px;font-size:26px}.timeline{gap:7px}.timeline-item{padding:9px;border-radius:12px}.advanced-wrap{margin-top:14px}.advanced-title{font-size:14px;margin-bottom:8px}.advanced-grid{grid-template-columns:1fr!important;gap:8px}.advanced-btn{min-height:58px;padding:10px;border-radius:15px}.adv-icon{width:30px;height:30px;border-radius:11px}.copy-btn{min-height:38px;border-radius:12px}.inputbar{position:fixed!important;left:0;right:0;bottom:0;padding:10px 10px calc(10px + env(safe-area-inset-bottom));z-index:50}.input-inner{max-width:none}.input-box{border-radius:20px;padding:10px;gap:9px;box-shadow:0 -14px 45px rgba(0,0,0,.24)}.textarea{font-size:15px;line-height:1.45;max-height:140px}.send{width:42px;height:42px;border-radius:14px}.hint{font-size:10px;margin-top:6px}}
+@media(max-width:560px){.sidebar{padding:12px}.row{display:grid;grid-template-columns:1fr 1fr;gap:7px}.row .mini-btn:last-child{grid-column:1 / -1}.side-card:nth-of-type(3){max-height:260px;overflow:auto}.side-card:nth-of-type(4){max-height:180px;overflow:auto}.header h2{font-size:25px!important}.hero h1{font-size:30px!important}.metrics-row{grid-template-columns:repeat(2,1fr)!important}.ts-card{min-height:68px;padding:9px}.ts-card-value{font-size:21px!important}.birth-cell{min-height:54px}.msg{padding:12px!important}.pro-panel{padding:12px}.advanced-btn small{font-size:11px}}
+@media(max-width:390px){.metrics-row{grid-template-columns:1fr!important}.header h2{font-size:23px!important}.hero h1{font-size:27px!important}.msg-text,.full-data-text{font-size:13.5px!important}.input-box{padding:8px;border-radius:18px}.send{width:40px;height:40px}}
+@media(prefers-reduced-motion:reduce){.app:before,.app:after,.msg{animation:none!important}.ts-card,.birth-cell,.arrow-chip,.timeline-item,.advanced-btn,.hero-card,.history-item,.prompt-btn,.mini-btn{transition:none!important}}
 `;
 
 function makeId(prefix = "id") {
@@ -1043,7 +1070,7 @@ Nếu muốn xem lại toàn bộ hồ sơ với năm ${settings.yearView}, anh 
         <aside className="sidebar" style={{ background: theme.sidebarBg, borderColor: theme.border }}>
           <div className="brand">
             <h1 style={{ color: theme.text }}>Thần Số Học GPT</h1>
-            <p style={{ color: theme.muted }}>PRO MAX UI · Galaxy glass · Full data modules</p>
+            <p style={{ color: theme.muted }}>PRO MAX FINAL · Mobile first · Galaxy AI interface</p>
           </div>
 
           <button className="new-btn" style={{ background: theme.accent }} onClick={resetChat}>
@@ -1119,7 +1146,7 @@ Nếu muốn xem lại toàn bộ hồ sơ với năm ${settings.yearView}, anh 
         <main className="main" style={{ background: theme.mainBg }}>
           <header className="header" style={{ background: `${theme.mainBg}dd` }}>
             <h2 style={{ color: theme.text }}>Thần Số Học GPT</h2>
-            <p style={{ color: theme.muted }}>Giao diện PRO MAX · galaxy glass · click xem full nội dung data</p>
+            <p style={{ color: theme.muted }}>PRO MAX FINAL · tối ưu mobile · galaxy glass · full data</p>
           </header>
 
           <section className="chat">
