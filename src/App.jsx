@@ -243,6 +243,7 @@ button{touch-action:manipulation}
   transition:transform .16s ease, background .16s ease, border-color .16s ease;
 }
 .voice-btn:hover,.mic-btn:hover{background:rgba(255,255,255,.075);border-color:rgba(16,163,127,.45);transform:translateY(-1px)}
+.answer-top-btn{background:linear-gradient(135deg,rgba(16,163,127,.18),rgba(96,165,250,.12))!important;border-color:rgba(16,163,127,.42)!important}
 .mic-btn{
   width:44px;
   height:44px;
@@ -926,9 +927,14 @@ function Message({ message, theme, onCopy, onAdvancedSelect }) {
   const isUser = message.role === "user";
   const isMainAnalysis = !isUser && message.kind === "main" && message.profile;
   const isSecondaryMenu = !isUser && message.kind === "secondary" && message.profile;
+  const answerRef = useRef(null);
+
+  function scrollToAnswerTop() {
+    answerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
 
   return (
-    <div className={`msg-row ${isUser ? "msg-user" : ""}`}>
+    <div ref={answerRef} className={`msg-row ${isUser ? "msg-user" : ""}`}>
       {!isUser && <div className="avatar ai promax-avatar" style={{ background: theme.accentSoft }}>✦</div>}
       <div
         className={`msg ${isUser ? "user-bubble" : "ai-bubble"} promax-message`}
@@ -951,6 +957,9 @@ function Message({ message, theme, onCopy, onAdvancedSelect }) {
 
         {!isUser && (
           <div className="audio-actions">
+            <button className="voice-btn answer-top-btn" style={{ color: theme.text, borderColor: theme.border }} onClick={scrollToAnswerTop}>
+              ⬆ Đầu câu trả lời
+            </button>
             <button className="voice-btn" style={{ color: theme.text, borderColor: theme.border }} onClick={() => onCopy(message.content)}>
               Sao chép
             </button>
